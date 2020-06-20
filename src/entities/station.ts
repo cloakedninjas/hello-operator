@@ -125,10 +125,10 @@ export default class Station extends GameObjects.Group {
 
         this.floatingCableEnd.visible = false;
 
-        if (this.portBeingHovered && this.portBeingHovered.canBeUsed()) {
+        if (this.portBeingHovered && !this.portBeingHovered.isCablePluggedIn) {
             // cable got plugged in
             this.plugCableIn(this.cableInUse, this.portBeingHovered);
-            this.portBeingHovered.setInUse(this.cableInUse);
+            this.portBeingHovered.plugCableIn(this.cableInUse);
 
         } else {
             // cable springs back to origin

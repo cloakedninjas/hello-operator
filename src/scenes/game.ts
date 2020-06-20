@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import Port from '../entities/port';
 import Station from '../entities/station';
+import Call from '../entities/call';
 import * as config from '../config.json';
 
 export class Game extends Scene {
@@ -9,6 +10,7 @@ export class Game extends Scene {
   people: Phaser.GameObjects.Sprite[][];
   stations: Station[];
   previousPortBeingHovered: Port;
+  calls: Call[];
 
   constructor() {
     super({
@@ -17,9 +19,12 @@ export class Game extends Scene {
   }
 
   create(): void {
+    window['scene'] = this;
     this.switchBoard = this.add.image(0, 0, 'switchboard');
     this.switchBoard.setOrigin(0.5, 0);
     this.switchBoard.setPosition(this.cameras.main.centerX, 0);
+
+    this.calls = [];
 
     // generate people
     //this.people = this.generatePeople();
@@ -31,9 +36,7 @@ export class Game extends Scene {
       this.ports[i] = [];
 
       for (let j = 0; j < config.ports.rows; j++) {
-        const x = (i * (config.ports.width + config.ports.padding)) + config.ports.x;
-        const y = (j * (config.ports.height + config.ports.padding)) + config.ports.y;
-        const port = new Port(this, x, y);
+        const port = new Port(this, i, j);
 
         this.ports[i].push(port);
         this.add.existing(port);
@@ -62,7 +65,7 @@ export class Game extends Scene {
         const graphics = new Phaser.GameObjects.Graphics(this);
 
         for (const peoplePart in config.peopleParts) {
-          const rand = Phaser.Math.Between(0, config.peopleParts[peoplePart]);
+          const rand = Phaser.Math.Between(0, config.peopleParts[peoplePart] - 1);
           const spriteName = `${peoplePart}_${rand}`;
           console.log(spriteName);
         }
@@ -94,5 +97,26 @@ export class Game extends Scene {
     if (this.previousPortBeingHovered) {
       this.previousPortBeingHovered.removeHighlight();
     }
+  }
+
+  generateCall(): void {
+    const sourceX = Phaser.Math.Between(0, config.ports.cols - 1);
+    const sourceY = Phaser.Math.Between(0, config.ports.rows - 1);
+
+    let gotDifferentDestination = false;
+    let destX;
+    let destY;
+
+    while (!gotDifferentDestination) {
+      destX = Phaser.Math.Between(0, config.ports.cols - 1);
+      destY = Phaser.Math.Between(0, config.ports.rows - 1);
+
+      gotDifferentDestination = !(destX === sourceX && destY === sourceY);
+    }
+
+    const sourcePort = this.ports[sourceX][sourceY];
+    const destPort = this.ports[destX][destY];
+
+    this.calls.push(new Call(this, sourcePort, destPort));
   }
 }

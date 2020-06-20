@@ -16,5 +16,13 @@
         "nose": 3,
         "mouth": 3,
         "body": 3
+    },
+    "numberStartCol": 20,
+    "numberStartRow": 30,
+    "calls": {
+        "giveUpWaitingTime": {
+            "min": 8000,
+            "max": 15000
+        }
     }
 }

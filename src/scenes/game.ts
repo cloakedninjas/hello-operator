@@ -22,7 +22,7 @@ export class Game extends Scene {
 
   create(): void {
     window['scene'] = this;
-    this.switchBoard = this.add.image(0, 0, 'switchboard');
+    this.switchBoard = this.add.image(0, 0, 'background');
     this.switchBoard.setOrigin(0.5, 0);
     this.switchBoard.setPosition(this.cameras.main.centerX, 0);
 
@@ -49,9 +49,12 @@ export class Game extends Scene {
     this.stations = [];
 
     const stationY = 550;
+    const colours = ['green', 'white', 'red'];
+
     for (let i = 0; i < config.stations; i++) {
       const x = (110 * i) + 100;
-      const station = new Station(this, x, stationY);
+
+      const station = new Station(this, x, stationY, colours[i % 3]);
       this.stations.push(station);
       this.add.existing(station);
     }

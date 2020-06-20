@@ -13,6 +13,7 @@ export default class Station extends GameObjects.Group {
     pluggedInIn: GameObjects.Sprite
     pluggedInOut: GameObjects.Sprite
 
+    colour: string;
     operatorWiredIn = true;
     cableInHand: string;
     floatingCableEnd: GameObjects.Sprite;
@@ -23,36 +24,37 @@ export default class Station extends GameObjects.Group {
     connectedInPort: Port;
     connectedOutPort: Port;
 
-    constructor(scene: GameScene, x: number, y: number) {
+    constructor(scene: GameScene, x: number, y: number, colour: string) {
         super(scene, {
             runChildUpdate: true
         });
 
         this.scene = scene;
+        this.colour = colour;
 
         this.bg = new GameObjects.Sprite(scene, x, y, 'station');
         this.bg.setOrigin(0);
         this.add(this.bg, true);
 
-        this.switch = new GameObjects.Sprite(scene, x + 10, y + 90, 'knob');
+        this.switch = new GameObjects.Sprite(scene, x + 10, y + 90, 'switch_left');
         this.switch.setOrigin(0);
         this.switch.setInteractive();
         this.switch.on('pointerdown', this.flipSwitch, this);
         this.add(this.switch, true);
 
-        this.bell = new GameObjects.Sprite(scene, x + 60, y + 90, 'bell');
+        this.bell = new GameObjects.Sprite(scene, x + 60, y + 90, 'button');
         this.bell.setOrigin(0);
         this.bell.setInteractive();
         this.bell.on('pointerdown', this.ringDestination, this);
         this.add(this.bell, true);
 
-        this.sourceCable = new GameObjects.Sprite(scene, x + 10, y, 'cable');
+        this.sourceCable = new GameObjects.Sprite(scene, x + 10, y, `plug_${colour}`);
         this.sourceCable.setOrigin(0, 1);
         this.sourceCable.setInteractive();
         this.sourceCable.on('pointerdown', this.grabCable.bind(this, 'in'));
         this.add(this.sourceCable, true);
 
-        this.destCable = new GameObjects.Sprite(scene, x + 60, y, 'cable');
+        this.destCable = new GameObjects.Sprite(scene, x + 60, y, `plug_${colour}`);
         this.destCable.setOrigin(0, 1);
         this.destCable.setInteractive();
         this.destCable.on('pointerdown', this.grabCable.bind(this, 'out'));

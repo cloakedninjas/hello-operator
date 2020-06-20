@@ -13,9 +13,14 @@ export default class Port extends Phaser.GameObjects.Sprite {
         return !this.inUse;
     }
 
-    setInUse(cableType: 'in' | 'out'): void {
+    setInUse(cableType: string): void {
         this.inUse = true;
         this.cableType = cableType;
+    }
+
+    unplug(): void {
+        this.inUse = false;
+        this.cableType = null;
     }
 
     highlight(): void {

@@ -150,7 +150,29 @@ export class Game extends Scene {
 
     if (this.minute === config.gameTime) {
       console.log('game over');
+      this.getScores();
       //this.scene.start('results');
     }
+  }
+
+  private getScores(): void {
+    const maxAllowedWaitTime = config.calls.giveUpWaitingConnect.max + config.calls.giveUpWaitingOperatorTime.max;
+    let total = 0;
+
+    this.calls.forEach((call) => {
+      if (call.connected) {
+        // end all ongoing calls as successful
+        call.completeCall();
+      }
+
+      if (call.successful) {
+        const timeSpentWaiting = call.endTime - call.initTime;
+        total += (1 - (timeSpentWaiting / maxAllowedWaitTime)) * config.scoring.sucessfulCallMax;
+      } else {
+        total -= config.scoring.failPenalty;
+      }
+    });
+
+    console.log(total);
   }
 }

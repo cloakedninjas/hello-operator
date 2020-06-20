@@ -8,6 +8,8 @@ export default class Call {
     script: string;
 
     callerTimer: Phaser.Time.TimerEvent;
+    initTime: number;
+    endTime: number;
 
     active = true; // call in progress, but not yet connected
     connected = false;
@@ -19,7 +21,7 @@ export default class Call {
         this.source = source;
         this.destination = destination;
         this.script = `Hello, put me through to ${destination.number}`;
-
+        this.initTime = scene.time.now;
         this.source.setCall(this);
 
         // timeout for successful connection to be made
@@ -55,9 +57,11 @@ export default class Call {
             delay: Phaser.Math.Between(config.calls.ringDelay.min, config.calls.ringDelay.max),
             callback: this.connectCall.bind(this, portConnectedTo)
         });
+        this.endTime = this.scene.time.now;
     }
 
     disconnect(): void {
+        console.log('operator disconnected live call');
         this.callerTimer.destroy();
         this.endCall(false);
     }
@@ -80,7 +84,7 @@ export default class Call {
         }
     }
 
-    private completeCall(): void {
+    completeCall(): void {
         this.endCall(true);
     }
 
@@ -95,6 +99,7 @@ export default class Call {
         this.connected = false;
         this.complete = true;
 
+        this.callerTimer.destroy();
         this.source.removeCaller();
         this.destination.removeCaller();
     }

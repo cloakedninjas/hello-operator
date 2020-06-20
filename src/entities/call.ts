@@ -31,14 +31,21 @@ export default class Call {
     }
 
     operatorListening(): void {
-        this.callerTimer.destroy();
-        this.callerTimer = this.scene.time.addEvent({
-            delay: Phaser.Math.Between(config.calls.giveUpWaitingConnect.min, config.calls.giveUpWaitingConnect.max),
-            callback: this.giveUpWaiting,
-            callbackScope: this
-        });
-        console.log(this.script);
-        this.destination.tint = 0x333333;
+        if (this.active && this.connected) {
+            // overheard conversation
+            // todo
+            console.log('overhearing conversation');
+        } else {
+            this.callerTimer.destroy();
+            this.callerTimer = this.scene.time.addEvent({
+                delay: Phaser.Math.Between(config.calls.giveUpWaitingConnect.min, config.calls.giveUpWaitingConnect.max),
+                callback: this.giveUpWaiting,
+                callbackScope: this
+            });
+            // todo
+            console.log(this.script);
+            this.destination.tint = 0x333333;
+        }
     }
 
     destinationRung(portConnectedTo: Port): void {

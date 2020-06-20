@@ -5,7 +5,7 @@ import Port from './port';
 export default class Station extends GameObjects.Group {
     scene: GameScene;
     bg: GameObjects.Sprite
-    knob: GameObjects.Sprite
+    switch: GameObjects.Sprite
     bell: GameObjects.Sprite
 
     in: GameObjects.Sprite
@@ -13,6 +13,7 @@ export default class Station extends GameObjects.Group {
     pluggedInIn: GameObjects.Sprite
     pluggedInOut: GameObjects.Sprite
 
+    operatorWiredIn = true;
     cableInHand: string;
     floatingCableEnd: GameObjects.Sprite;
     activeInCableLine: GameObjects.Graphics;
@@ -33,9 +34,11 @@ export default class Station extends GameObjects.Group {
         this.bg.setOrigin(0);
         this.add(this.bg, true);
 
-        this.knob = new GameObjects.Sprite(scene, x + 10, y + 90, 'knob');
-        this.knob.setOrigin(0);
-        this.add(this.knob, true);
+        this.switch = new GameObjects.Sprite(scene, x + 10, y + 90, 'knob');
+        this.switch.setOrigin(0);
+        this.switch.setInteractive();
+        this.switch.on('pointerdown', this.flipSwitch, this);
+        this.add(this.switch, true);
 
         this.bell = new GameObjects.Sprite(scene, x + 60, y + 90, 'bell');
         this.bell.setOrigin(0);
@@ -177,7 +180,7 @@ export default class Station extends GameObjects.Group {
         if (cableInHand === 'in') {
             this.connectedInPort = port;
 
-            if (port.callInProgress) {
+            if (port.callInProgress && this.operatorWiredIn) {
                 port.callInProgress.operatorListening();
             }
         } else {
@@ -211,6 +214,14 @@ export default class Station extends GameObjects.Group {
         if (this.connectedInPort && this.connectedOutPort && this.connectedInPort.callInProgress) {
             // only allow ring when both connected
             this.connectedInPort.callInProgress.destinationRung(this.connectedOutPort);
+        }
+    }
+
+    private flipSwitch(): void {
+        this.operatorWiredIn = !this.operatorWiredIn;
+
+        if (this.connectedInPort && this.connectedInPort.callInProgress && this.operatorWiredIn) {
+            this.connectedInPort.callInProgress.operatorListening();
         }
     }
 }

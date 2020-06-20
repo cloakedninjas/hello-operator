@@ -176,7 +176,10 @@ export default class Station extends GameObjects.Group {
 
         if (cableInHand === 'in') {
             this.connectedInPort = port;
-            port.callInProgress.operatorListening();
+
+            if (port.callInProgress) {
+                port.callInProgress.operatorListening();
+            }
         } else {
             this.connectedOutPort = port;
         }

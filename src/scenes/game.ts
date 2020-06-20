@@ -107,8 +107,18 @@ export class Game extends Scene {
   }
 
   generateCall(): void {
-    const sourceX = Phaser.Math.Between(0, config.ports.cols - 1);
-    const sourceY = Phaser.Math.Between(0, config.ports.rows - 1);
+    let gotAvailableCaller = false;
+    let srcX;
+    let srcY;
+    let sourcePort: Port;
+
+    while (!gotAvailableCaller) {
+      srcX = Phaser.Math.Between(0, config.ports.cols - 1);
+      srcY = Phaser.Math.Between(0, config.ports.rows - 1);
+
+      sourcePort = this.ports[srcX][srcY];
+      gotAvailableCaller = !sourcePort.callInProgress;
+    }
 
     let gotDifferentDestination = false;
     let destX;
@@ -118,10 +128,9 @@ export class Game extends Scene {
       destX = Phaser.Math.Between(0, config.ports.cols - 1);
       destY = Phaser.Math.Between(0, config.ports.rows - 1);
 
-      gotDifferentDestination = !(destX === sourceX && destY === sourceY);
+      gotDifferentDestination = !(destX === srcX && destY === srcY);
     }
 
-    const sourcePort = this.ports[sourceX][sourceY];
     const destPort = this.ports[destX][destY];
 
     this.calls.push(new Call(this, sourcePort, destPort));

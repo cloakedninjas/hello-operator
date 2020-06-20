@@ -2,8 +2,8 @@
     "ports": {
         "rows": 8,
         "cols": 10,
-        "x": 250,
-        "y": 60,
+        "xOffset": 250,
+        "yOffset": 60,
         "width": 40,
         "height": 40,
         "padding": 10
@@ -20,9 +20,21 @@
     "numberStartCol": 20,
     "numberStartRow": 30,
     "calls": {
-        "giveUpWaitingTime": {
+        "giveUpWaitingOperatorTime": {
             "min": 8000,
             "max": 15000
+        },
+        "giveUpWaitingConnect": {
+            "min": 5000,
+            "max": 8000
+        },
+        "ringDelay": {
+            "min": 800,
+            "max": 2000
+        },
+        "callDuration": {
+            "min": 12000,
+            "max": 30000
         }
     }
 }

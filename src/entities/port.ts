@@ -1,15 +1,16 @@
 import * as config from '../config.json';
+import Call from './call';
 
 export default class Port extends Phaser.GameObjects.Sprite {
     isCablePluggedIn: boolean;
-    hasCaller: boolean;
+    callInProgress: Call;
     cableType: string;
     indexPosition: Phaser.Types.Math.Vector2Like;
     number: string;
 
     constructor(scene: Phaser.Scene, posX: number, posY: number) {
-        const x = (posX * (config.ports.width + config.ports.padding)) + config.ports.x;
-        const y = (posY * (config.ports.height + config.ports.padding)) + config.ports.y;
+        const x = (posX * (config.ports.width + config.ports.padding)) + config.ports.xOffset;
+        const y = (posY * (config.ports.height + config.ports.padding)) + config.ports.yOffset;
 
         super(scene, x, y, 'port');
 
@@ -31,6 +32,10 @@ export default class Port extends Phaser.GameObjects.Sprite {
     unplug(): void {
         this.isCablePluggedIn = false;
         this.cableType = null;
+
+        if (this.callInProgress) {
+            this.callInProgress.disconnect();
+        }
     }
 
     highlight(): void {
@@ -41,7 +46,13 @@ export default class Port extends Phaser.GameObjects.Sprite {
         this.clearTint();
     }
 
+    setCall(call: Call): void {
+        this.callInProgress = call;
+        this.tint = 0x4400ee;
+    }
+
     removeCaller(): void {
-        this.hasCaller = false;
+        this.clearTint();
+        this.callInProgress = null;
     }
 }

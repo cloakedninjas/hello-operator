@@ -79,10 +79,17 @@ export class Game extends Scene {
   getPortAt(x: number, y: number): Port {
     this.clearPortHighlight();
 
-    const gridX = Math.floor((x - config.ports.x) / (config.ports.width + config.ports.padding));
-    const gridY = Math.floor((y - config.ports.y) / (config.ports.height + config.ports.padding));
+    const gridX = Math.floor((x - config.ports.xOffset) / (config.ports.width + config.ports.padding));
+    const gridY = Math.floor((y - config.ports.yOffset) / (config.ports.height + config.ports.padding));
 
-    //console.log(gridX, gridY);
+    if (
+      gridX < 0 ||
+      gridY < 0 ||
+      gridX >= config.ports.cols ||
+      gridY >= config.ports.rows
+    ) {
+      return;
+    }
 
     const port = this.ports[gridX][gridY];
 

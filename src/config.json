@@ -1,6 +1,13 @@
 {
-    "portsX": 8,
-    "portsY": 10,
+    "ports": {
+        "rows": 8,
+        "cols": 10,
+        "x": 250,
+        "y": 60,
+        "width": 40,
+        "height": 40,
+        "padding": 10
+    },
     "stations": 6,
     "peopleParts": {
         "face": 3,

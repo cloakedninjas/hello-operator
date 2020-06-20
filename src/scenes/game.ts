@@ -8,6 +8,7 @@ export class Game extends Scene {
   ports: Port[][];
   people: Phaser.GameObjects.Sprite[][];
   stations: Station[];
+  previousPortBeingHovered: Port;
 
   constructor() {
     super({
@@ -26,11 +27,16 @@ export class Game extends Scene {
     // generate ports
     this.ports = [];
 
-    for (let i = 0; i < config.portsX; i++) {
+    for (let i = 0; i < config.ports.cols; i++) {
       this.ports[i] = [];
 
-      for (let j = 0; j < config.portsY; j++) {
-        this.ports[i].push(new Port(this, i, j));
+      for (let j = 0; j < config.ports.rows; j++) {
+        const x = (i * (config.ports.width + config.ports.padding)) + config.ports.x;
+        const y = (j * (config.ports.height + config.ports.padding)) + config.ports.y;
+        const port = new Port(this, x, y);
+
+        this.ports[i].push(port);
+        this.add.existing(port);
       }
     }
 
@@ -48,7 +54,7 @@ export class Game extends Scene {
 
   /* private generatePeople(): Phaser.GameObjects.Sprite[][] {
     this.people = [];
-    
+
     for (let i = 0; i < config.portsX; i++) {
       this.people[i] = [];
 
@@ -62,8 +68,31 @@ export class Game extends Scene {
         }
       }
     }
-    
+
     return [];
   }
    */
+
+  getPortAt(x: number, y: number): Port {
+    this.clearPortHighlight();
+
+    const gridX = Math.floor((x - config.ports.x) / (config.ports.width + config.ports.padding));
+    const gridY = Math.floor((y - config.ports.y) / (config.ports.height + config.ports.padding));
+
+    //console.log(gridX, gridY);
+
+    const port = this.ports[gridX][gridY];
+
+    if (port) {
+      port.highlight();
+      this.previousPortBeingHovered = port;
+      return port;
+    }
+  }
+
+  clearPortHighlight(): void {
+    if (this.previousPortBeingHovered) {
+      this.previousPortBeingHovered.removeHighlight();
+    }
+  }
 }

@@ -1,0 +1,32 @@
+{
+    "assetRoot": "assets",
+    "totalSize": 388632,
+    "assets": {
+        "image": {
+            "phaser_logo": {
+                "file": "phaser_logo.png",
+                "size": 377788
+            },
+            "switchboard": {
+                "file": "switchboard.png",
+                "size": 2989
+            },
+            "station": {
+                "file": "station.png",
+                "size": 411
+            },
+            "bell": {
+                "file": "bell.png",
+                "size": 387
+            },
+            "knob": {
+                "file": "knob.png",
+                "size": 497
+            },
+            "cable": {
+                "file": "cable.png",
+                "size": 582
+            }
+        }
+    }
+}

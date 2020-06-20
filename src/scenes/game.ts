@@ -11,6 +11,8 @@ export class Game extends Scene {
   stations: Station[];
   previousPortBeingHovered: Port;
   calls: Call[];
+  minute = 0;
+  gameTimer: Phaser.Time.TimerEvent;
 
   constructor() {
     super({
@@ -53,6 +55,13 @@ export class Game extends Scene {
       this.stations.push(station);
       this.add.existing(station);
     }
+
+    this.gameTimer = this.time.addEvent({
+      delay: 60000, // 1min
+      repeat: config.gameTime - 1,
+      callback: this.updateClock,
+      callbackScope: this
+    });
   }
 
   /* private generatePeople(): Phaser.GameObjects.Sprite[][] {
@@ -134,5 +143,14 @@ export class Game extends Scene {
     const destPort = this.ports[destX][destY];
 
     this.calls.push(new Call(this, sourcePort, destPort));
+  }
+
+  private updateClock(): void {
+    this.minute++;
+
+    if (this.minute === config.gameTime) {
+      console.log('game over');
+      //this.scene.start('results');
+    }
   }
 }

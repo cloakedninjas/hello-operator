@@ -8,8 +8,8 @@ export default class Station extends GameObjects.Group {
     switch: GameObjects.Sprite
     bell: GameObjects.Sprite
 
-    in: GameObjects.Sprite
-    out: GameObjects.Sprite
+    sourceCable: GameObjects.Sprite
+    destCable: GameObjects.Sprite
     pluggedInIn: GameObjects.Sprite
     pluggedInOut: GameObjects.Sprite
 
@@ -46,17 +46,17 @@ export default class Station extends GameObjects.Group {
         this.bell.on('pointerdown', this.ringDestination, this);
         this.add(this.bell, true);
 
-        this.in = new GameObjects.Sprite(scene, x + 10, y, 'cable');
-        this.in.setOrigin(0, 1);
-        this.in.setInteractive();
-        this.in.on('pointerdown', this.grabCable.bind(this, 'in'));
-        this.add(this.in, true);
+        this.sourceCable = new GameObjects.Sprite(scene, x + 10, y, 'cable');
+        this.sourceCable.setOrigin(0, 1);
+        this.sourceCable.setInteractive();
+        this.sourceCable.on('pointerdown', this.grabCable.bind(this, 'in'));
+        this.add(this.sourceCable, true);
 
-        this.out = new GameObjects.Sprite(scene, x + 60, y, 'cable');
-        this.out.setOrigin(0, 1);
-        this.out.setInteractive();
-        this.out.on('pointerdown', this.grabCable.bind(this, 'out'));
-        this.add(this.out, true);
+        this.destCable = new GameObjects.Sprite(scene, x + 60, y, 'cable');
+        this.destCable.setOrigin(0, 1);
+        this.destCable.setInteractive();
+        this.destCable.on('pointerdown', this.grabCable.bind(this, 'out'));
+        this.add(this.destCable, true);
 
         this.pluggedInIn = new GameObjects.Sprite(scene, x + 60, y, 'plugged_in');
         this.pluggedInIn.setOrigin(0);
@@ -89,7 +89,7 @@ export default class Station extends GameObjects.Group {
 
     grabCable(cable: string, pointer: Phaser.Input.Pointer): void {
         this.cableInHand = cable;
-        this.getSourceCable(cable).visible = false;
+        this.getCable(cable).visible = false;
         this.getActiveCableLine(cable).visible = true;
         this.floatingCableEnd.visible = true;
         this.floatingCableEnd.setPosition(pointer.x, pointer.y);
@@ -138,7 +138,7 @@ export default class Station extends GameObjects.Group {
 
         } else {
             // cable springs back to origin
-            this.getSourceCable(this.cableInHand).visible = true;
+            this.getCable(this.cableInHand).visible = true;
             this.getActiveCableLine(this.cableInHand).visible = false;
         }
 
@@ -146,7 +146,7 @@ export default class Station extends GameObjects.Group {
     }
 
     private drawCableLine(toPos: Phaser.Types.Math.Vector2Like): void {
-        const sourceCable = this.getSourceCable(this.cableInHand);
+        const sourceCable = this.getCable(this.cableInHand);
         const activeCableLine = this.getActiveCableLine(this.cableInHand);
 
         activeCableLine.clear();
@@ -158,8 +158,8 @@ export default class Station extends GameObjects.Group {
         );
     }
 
-    private getSourceCable(cableInHand: string): GameObjects.Sprite {
-        return cableInHand === 'in' ? this.in : this.out;
+    private getCable(cableInHand: string): GameObjects.Sprite {
+        return cableInHand === 'in' ? this.sourceCable : this.destCable;
     }
 
     private getActiveCableLine(cableInHand: string): GameObjects.Graphics {
@@ -200,7 +200,7 @@ export default class Station extends GameObjects.Group {
     private unplugCable(cable: string): void {
         this.getActiveCableLine(cable).visible = false;
         this.getPluggedInEnd(cable).visible = false;
-        this.getSourceCable(cable).visible = true;
+        this.getCable(cable).visible = true;
         this.getPortForCable(cable).unplug();
 
         if (cable === 'in') {

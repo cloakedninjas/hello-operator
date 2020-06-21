@@ -13,6 +13,7 @@ export class Game extends Scene {
   calls: Call[];
   minute = 0;
   gameTimer: Phaser.Time.TimerEvent;
+  conversations: string[];
 
   constructor() {
     super({
@@ -88,6 +89,9 @@ export class Game extends Scene {
       const label = this.add.text(labelX, y, (config.numberStartRow + i).toString(), labelStyle);
       label.setOrigin(0.5);
     }
+
+    this.conversations = this.cache.text.get('conversations').split('===\r\n');
+    this.conversations = Phaser.Utils.Array.Shuffle(this.conversations);
 
     // start game
 
@@ -187,7 +191,8 @@ export class Game extends Scene {
       gotValidDestination = !destPort.stationHandlingCall && !destPort.callInProgress && !destPort.callExpected;
     }
 
-    this.calls.push(new Call(this, sourcePort, destPort));
+    const conversationIndex = this.calls.length % this.conversations.length;
+    this.calls.push(new Call(this, sourcePort, destPort, this.conversations[conversationIndex]));
   }
 
   updateCallStatus(status?: string): void {

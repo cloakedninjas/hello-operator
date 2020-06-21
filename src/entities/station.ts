@@ -229,9 +229,7 @@ export default class Station extends GameObjects.Group {
                 this.turnLightOn('in', true);
                 this.scene.updateCallStatus('connect_to_caller');
 
-                if (this.operatorWiredIn) {
-                    port.callInProgress.operatorListening();
-                }
+                port.callInProgress.operatorListening(this.operatorWiredIn);
             }
         } else {
             this.connectedOutPort = port;
@@ -276,8 +274,8 @@ export default class Station extends GameObjects.Group {
 
         this.switch.setTexture(this.operatorWiredIn ? 'switch_left' : 'switch_right');
 
-        if (this.connectedInPort && this.connectedInPort.callInProgress && this.operatorWiredIn) {
-            this.connectedInPort.callInProgress.operatorListening();
+        if (this.connectedInPort && this.connectedInPort.callInProgress) {
+            this.connectedInPort.callInProgress.operatorListening(this.operatorWiredIn);
         }
     }
 

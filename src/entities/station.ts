@@ -21,7 +21,7 @@ export default class Station extends GameObjects.Group {
     pluggedInOut: GameObjects.Sprite
 
     colour: string;
-    operatorWiredIn = true;
+    operatorWiredIn = false;
     cableInHand: string;
     floatingCableEnd: GameObjects.Sprite;
     activeInCableLine: GameObjects.Graphics;

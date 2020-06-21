@@ -34,7 +34,7 @@ export default class Port extends Phaser.GameObjects.Sprite {
         this.debug = new Phaser.GameObjects.Graphics(scene);
         this.debug.fillStyle(0x00ffff);
         this.debug.fillRect(x + 18, y - 15, 5, 5);
-        scene.add.existing(this.debug);
+        //scene.add.existing(this.debug);
     }
 
     plugCableIn(station: Station, cableType: string): void {

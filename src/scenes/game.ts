@@ -66,7 +66,7 @@ export class Game extends Scene {
 
     const labelX = config.ports.xOffset - 50;
     const labelY = config.ports.yOffset - 35;
-    const labelStyle: any = { // Partial<Phaser.GameObjects.TextStyle>
+    const labelStyle: Phaser.Types.GameObjects.Text.TextStyle = {
       color: '#000',
       fontStyle: 'bold',
       backgroundColor: '#fff',

@@ -101,7 +101,7 @@ export default class Call {
 
             this.textType(`Hello, put me through to ${this.destination.number}`)
             // todo - remove
-            this.destination.tint = 0x333333;
+            //this.destination.tint = 0x333333;
         }
     }
 
@@ -193,7 +193,12 @@ export default class Call {
     }
 
     private textType(sentence: string, done?: () => void): void {
+        if (this.speechTimer) {
+            this.speechTimer.destroy();
+        }
+
         this.words = sentence.split(' ');
+        this.speechText.text = '';
         this.textTypeAddWord(done);
     }
 

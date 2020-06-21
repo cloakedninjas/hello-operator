@@ -187,14 +187,6 @@
                 "file": "plugin1.ogg",
                 "size": 12003
             },
-            "plugout1": {
-                "file": "plugout1.ogg",
-                "size": 11291
-            },
-            "plugout2": {
-                "file": "plugout2.ogg",
-                "size": 10487
-            },
             "releaseplug": {
                 "file": "releaseplug.ogg",
                 "size": 7560

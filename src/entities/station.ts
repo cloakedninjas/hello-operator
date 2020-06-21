@@ -185,10 +185,10 @@ export default class Station extends GameObjects.Group {
             // cable springs back to origin
             this.getCable(this.cableInHand).visible = true;
             this.getActiveCableLine(this.cableInHand).visible = false;
+            this.scene.sound.play('releaseplug');
         }
 
         this.cableInHand = null;
-        this.scene.sound.play('releaseplug');
     }
 
     private drawCableLine(toPos: Phaser.Types.Math.Vector2Like): void {

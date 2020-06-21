@@ -205,7 +205,7 @@ export class Game extends Scene {
 
       if (call.successful) {
         const timeSpentWaiting = call.endTime - call.initTime;
-        total += (1 - (timeSpentWaiting / maxAllowedWaitTime)) * config.scoring.sucessfulCallMax;
+        total += (1 - (timeSpentWaiting / maxAllowedWaitTime)) * config.scoring.successfulCallMaxScore;
       } else {
         total -= config.scoring.failPenalty;
       }

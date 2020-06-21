@@ -53,7 +53,7 @@
     },
     "gameTime": 3,
     "scoring": {
-        "sucessfulCallMax": 100,
+        "successfulCallMaxScore": 100,
         "failPenalty": 5
     }
 }

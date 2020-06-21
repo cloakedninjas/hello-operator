@@ -98,12 +98,14 @@ export default class Station extends GameObjects.Group {
         this.add(this.destCable, true);
 
         this.pluggedInIn = new GameObjects.Sprite(scene, x + 60, y, `plugged_${this.colour}`);
+        this.pluggedInIn.setOrigin(0.5, 0.65);
         this.pluggedInIn.setInteractive();
         this.pluggedInIn.visible = false;
         this.pluggedInIn.on('pointerdown', this.unplugCable.bind(this, 'in'));
         this.add(this.pluggedInIn, true);
 
         this.pluggedInOut = new GameObjects.Sprite(scene, x + 60, y, `plugged_${this.colour}`);
+        this.pluggedInOut.setOrigin(0.5, 0.65);
         this.pluggedInOut.setInteractive();
         this.pluggedInOut.visible = false;
         this.pluggedInOut.on('pointerdown', this.unplugCable.bind(this, 'out'));

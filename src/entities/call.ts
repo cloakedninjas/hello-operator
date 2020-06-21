@@ -23,6 +23,7 @@ export default class Call {
         this.script = `Hello, put me through to ${destination.number}`;
         this.initTime = scene.time.now;
         this.source.setCall(this);
+        this.source.flashLight();
 
         // timeout for successful connection to be made
         this.callerTimer = scene.time.addEvent({
@@ -75,6 +76,8 @@ export default class Call {
             // wrong port
             this.endCall(false);
         } else {
+            portConnectedTo.setCall(this);
+            portConnectedTo.setLight(true);
             this.connected = true;
             this.callerTimer = this.scene.time.addEvent({
                 delay: Phaser.Math.Between(config.calls.callDuration.min, config.calls.callDuration.max),

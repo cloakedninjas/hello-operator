@@ -9,6 +9,7 @@ export default class Port extends Phaser.GameObjects.Sprite {
     cableType: string;
     indexPosition: Phaser.Types.Math.Vector2Like;
     number: string;
+    lightFlash: Phaser.Time.TimerEvent;
 
     constructor(scene: Phaser.Scene, posX: number, posY: number) {
         const x = (posX * (config.ports.width + config.ports.padding.x)) + config.ports.xOffset;
@@ -24,13 +25,17 @@ export default class Port extends Phaser.GameObjects.Sprite {
 
         this.number = `${config.numberStartCol + posX}${config.numberStartRow + posY}`;
 
-        this.light = new Phaser.GameObjects.Sprite(scene, x, y + 30, 'switchboard_light_unlit');
+        this.light = new Phaser.GameObjects.Sprite(scene, x, y + 32, 'switchboard_light_unlit');
         scene.add.existing(this.light);
     }
 
     plugCableIn(cableType: string): void {
         this.isCablePluggedIn = true;
         this.cableType = cableType;
+
+        if (this.callInProgress) {
+            this.setLight(true);
+        }
     }
 
     unplug(): void {
@@ -39,6 +44,7 @@ export default class Port extends Phaser.GameObjects.Sprite {
 
         if (this.callInProgress) {
             this.callInProgress.disconnect();
+            this.setLight(false);
         }
     }
 
@@ -58,5 +64,24 @@ export default class Port extends Phaser.GameObjects.Sprite {
     removeCaller(): void {
         this.clearTint();
         this.callInProgress = null;
+        this.setLight(false);
+    }
+
+    flashLight(): void {
+        this.lightFlash = this.scene.time.addEvent({
+            delay: 300,
+            callback: () => {
+                this.light.setTexture(this.light.texture.key === 'switchboard_light_unlit' ? 'switchboard_light_lit' : 'switchboard_light_unlit');
+            },
+            loop: true
+        });
+    }
+
+    setLight(on: boolean): void {
+        if (this.lightFlash) {
+            this.lightFlash.destroy();
+        }
+
+        this.light.setTexture(on ? 'switchboard_light_lit' : 'switchboard_light_unlit');
     }
 }

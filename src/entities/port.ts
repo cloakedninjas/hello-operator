@@ -111,7 +111,7 @@ export default class Port extends Phaser.GameObjects.Sprite {
 
     setStationLight(on: boolean): void {
         if (this.callInProgress && this.stationHandlingCall) {
-            this.stationHandlingCall.turnLightOn('out', on);
+            this.stationHandlingCall.toggleLight('out', on);
         }
     }
 }

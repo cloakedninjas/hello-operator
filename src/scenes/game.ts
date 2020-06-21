@@ -14,6 +14,7 @@ export class Game extends Scene {
   minute = 0;
   gameTimer: Phaser.Time.TimerEvent;
   conversations: string[];
+  nextGeneratedCall: Phaser.Time.TimerEvent;
 
   constructor() {
     super({
@@ -143,6 +144,10 @@ export class Game extends Scene {
       return;
     }
 
+    if (this.nextGeneratedCall && !this.nextGeneratedCall.hasDispatched) {
+      return;
+    }
+
     if (delay === undefined) {
       const band = this.minute >= config.calls.spawnDelay.fastThreshold
         ? config.calls.spawnDelay.fast
@@ -151,7 +156,7 @@ export class Game extends Scene {
       delay = Phaser.Math.Between(band.min, band.max);
     }
 
-    this.time.addEvent({
+    this.nextGeneratedCall = this.time.addEvent({
       delay,
       callback: this.generateCall,
       callbackScope: this

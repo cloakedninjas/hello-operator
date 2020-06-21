@@ -226,7 +226,7 @@ export default class Station extends GameObjects.Group {
             this.connectedInPort = port;
 
             if (port.callInProgress) {
-                this.turnLightOn('in', true);
+                this.toggleLight('in', true);
                 this.scene.updateCallStatus('connect_to_caller');
 
                 port.callInProgress.operatorListening(this.operatorWiredIn);
@@ -258,7 +258,7 @@ export default class Station extends GameObjects.Group {
             this.connectedOutPort = null;
         }
 
-        this.turnLightOn(cable, false);
+        this.toggleLight(cable, false);
     }
 
     private ringDestination(): void {
@@ -279,7 +279,7 @@ export default class Station extends GameObjects.Group {
         }
     }
 
-    turnLightOn(whichLight: string, on: boolean): void {
+    toggleLight(whichLight: string, on: boolean): void {
         const light = whichLight === 'in' ? this.sourceLight : this.destLight;
         const texture = on ? `light_${this.colour}_lit` : `light_${this.colour}_unlit`;
         light.setTexture(texture);

@@ -251,8 +251,8 @@ export default class Call {
         this.destination.removeCall();
 
         if (this.source.stationHandlingCall) {
-            this.source.stationHandlingCall.turnLightOn('in', false);
-            this.source.stationHandlingCall.turnLightOn('out', false);
+            this.source.stationHandlingCall.toggleLight('in', false);
+            this.source.stationHandlingCall.toggleLight('out', false);
         }
     }
 }

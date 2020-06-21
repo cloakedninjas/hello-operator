@@ -18,6 +18,9 @@ const config: Phaser.Types.Core.GameConfig = {
       width: 1024,
       height: 768
     }
+  },
+  render: {
+    pixelArt: devicePixelRatio === 1
   }
 };
 

@@ -2,6 +2,8 @@ import * as config from '../config.json';
 import Call from './call';
 
 export default class Port extends Phaser.GameObjects.Sprite {
+    light: Phaser.GameObjects.Sprite;
+
     isCablePluggedIn: boolean;
     callInProgress: Call;
     cableType: string;
@@ -9,8 +11,8 @@ export default class Port extends Phaser.GameObjects.Sprite {
     number: string;
 
     constructor(scene: Phaser.Scene, posX: number, posY: number) {
-        const x = (posX * (config.ports.width + config.ports.padding)) + config.ports.xOffset;
-        const y = (posY * (config.ports.height + config.ports.padding)) + config.ports.yOffset;
+        const x = (posX * (config.ports.width + config.ports.padding.x)) + config.ports.xOffset;
+        const y = (posY * (config.ports.height + config.ports.padding.y)) + config.ports.yOffset;
 
         super(scene, x, y, 'switchboard_plug');
 
@@ -21,6 +23,9 @@ export default class Port extends Phaser.GameObjects.Sprite {
         }
 
         this.number = `${config.numberStartCol + posX}${config.numberStartRow + posY}`;
+
+        this.light = new Phaser.GameObjects.Sprite(scene, x, y + 30, 'switchboard_light_unlit');
+        scene.add.existing(this.light);
     }
 
     plugCableIn(cableType: string): void {

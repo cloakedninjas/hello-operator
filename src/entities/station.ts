@@ -52,8 +52,8 @@ export default class Station extends GameObjects.Group {
         this.colour = colour;
 
         const componentX = x + 16;
-        const lightY = y + 42;
-        const switchY = y + 90;
+        const lightY = y + 40;
+        const switchY = y + 70;
 
         this.socketIn = new GameObjects.Sprite(scene, componentX, y, 'plug_socket');
         this.socketIn.setOrigin(0.5, 1);

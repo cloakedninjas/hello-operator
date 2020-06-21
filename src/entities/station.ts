@@ -24,6 +24,12 @@ export default class Station extends GameObjects.Group {
     connectedInPort: Port;
     connectedOutPort: Port;
 
+    cableColour = {
+        'red': 0xff0000,
+        'white': 0xffffff,
+        'green': 0x00ff00
+    };
+
     constructor(scene: GameScene, x: number, y: number, colour: string) {
         super(scene, {
             runChildUpdate: true
@@ -46,6 +52,9 @@ export default class Station extends GameObjects.Group {
         this.bell.setOrigin(0);
         this.bell.setInteractive();
         this.bell.on('pointerdown', this.ringDestination, this);
+        this.bell.on('pointerup', () => {
+            this.bell.setTexture('button');
+        });
         this.add(this.bell, true);
 
         this.sourceCable = new GameObjects.Sprite(scene, x + 10, y, `plug_${colour}`);
@@ -152,7 +161,7 @@ export default class Station extends GameObjects.Group {
         const activeCableLine = this.getActiveCableLine(this.cableInHand);
 
         activeCableLine.clear();
-        activeCableLine.lineStyle(5, 0xff0000);
+        activeCableLine.lineStyle(5, this.cableColour[this.colour]);
 
         activeCableLine.lineBetween(
             sourceCable.x + (sourceCable.width / 2), sourceCable.y,
@@ -213,6 +222,7 @@ export default class Station extends GameObjects.Group {
     }
 
     private ringDestination(): void {
+        this.bell.setTexture('button_pressed');
         if (this.connectedInPort && this.connectedOutPort && this.connectedInPort.callInProgress) {
             // only allow ring when both connected
             this.connectedInPort.callInProgress.destinationRung(this.connectedOutPort);
@@ -221,6 +231,8 @@ export default class Station extends GameObjects.Group {
 
     private flipSwitch(): void {
         this.operatorWiredIn = !this.operatorWiredIn;
+
+        this.switch.setTexture(this.operatorWiredIn ? 'switch_left' : 'switch_right');
 
         if (this.connectedInPort && this.connectedInPort.callInProgress && this.operatorWiredIn) {
             this.connectedInPort.callInProgress.operatorListening();

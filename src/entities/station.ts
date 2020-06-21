@@ -24,11 +24,19 @@ export default class Station extends GameObjects.Group {
     connectedInPort: Port;
     connectedOutPort: Port;
 
-    cableColour = {
-        'red': 0xff0000,
-        'white': 0xffffff,
-        'green': 0x00ff00
+    cableOutineColour = {
+        'red': 0x3c0803,
+        'white': 0x303030,
+        'green': 0x001e11
     };
+
+    cableColour = {
+        'red': 0xba3d2e,
+        'white': 0xc0c0c0,
+        'green': 0x00704f
+    };
+
+    cableEndOffset = 68;
 
     constructor(scene: GameScene, x: number, y: number, colour: string) {
         super(scene, {
@@ -69,21 +77,21 @@ export default class Station extends GameObjects.Group {
         this.destCable.on('pointerdown', this.grabCable.bind(this, 'out'));
         this.add(this.destCable, true);
 
-        this.pluggedInIn = new GameObjects.Sprite(scene, x + 60, y, 'plugged_in');
+        this.pluggedInIn = new GameObjects.Sprite(scene, x + 60, y, `plugged_${this.colour}`);
         this.pluggedInIn.setOrigin(0);
         this.pluggedInIn.setInteractive();
         this.pluggedInIn.visible = false;
         this.pluggedInIn.on('pointerdown', this.unplugCable.bind(this, 'in'));
         this.add(this.pluggedInIn, true);
 
-        this.pluggedInOut = new GameObjects.Sprite(scene, x + 60, y, 'plugged_in');
+        this.pluggedInOut = new GameObjects.Sprite(scene, x + 60, y, `plugged_${this.colour}`);
         this.pluggedInOut.setOrigin(0);
         this.pluggedInOut.setInteractive();
         this.pluggedInOut.visible = false;
         this.pluggedInOut.on('pointerdown', this.unplugCable.bind(this, 'out'));
         this.add(this.pluggedInOut, true);
 
-        this.floatingCableEnd = new GameObjects.Sprite(scene, 0, 0, 'cable');
+        this.floatingCableEnd = new GameObjects.Sprite(scene, 0, 0, `plug_${this.colour}_cursor`);
         this.floatingCableEnd.setOrigin(0, 0);
         this.floatingCableEnd.visible = false;
         this.add(this.floatingCableEnd, true);
@@ -105,13 +113,12 @@ export default class Station extends GameObjects.Group {
         this.floatingCableEnd.visible = true;
         this.floatingCableEnd.setPosition(pointer.x, pointer.y);
 
-        this.scene.children.bringToTop(this.activeOutCableLine);
         this.scene.children.bringToTop(this.floatingCableEnd);
+        this.scene.children.bringToTop(this.activeOutCableLine);
 
-        // todo fix
         this.drawCableLine({
-            x: this.floatingCableEnd.x + (this.floatingCableEnd.width / 2),
-            y: this.floatingCableEnd.y + this.floatingCableEnd.height
+            x: this.floatingCableEnd.x + this.cableEndOffset,
+            y: this.floatingCableEnd.y + this.cableEndOffset
         });
     }
 
@@ -122,10 +129,9 @@ export default class Station extends GameObjects.Group {
 
         this.floatingCableEnd.setPosition(pointer.x, pointer.y);
 
-        //todo fix
         this.drawCableLine({
-            x: this.floatingCableEnd.x + (this.floatingCableEnd.width / 2),
-            y: this.floatingCableEnd.y + this.floatingCableEnd.height
+            x: this.floatingCableEnd.x + this.cableEndOffset,
+            y: this.floatingCableEnd.y + this.cableEndOffset
         });
 
         this.portBeingHovered = this.scene.getPortAt(pointer.x, pointer.y);
@@ -161,8 +167,13 @@ export default class Station extends GameObjects.Group {
         const activeCableLine = this.getActiveCableLine(this.cableInHand);
 
         activeCableLine.clear();
-        activeCableLine.lineStyle(5, this.cableColour[this.colour]);
+        activeCableLine.lineStyle(7, this.cableOutineColour[this.colour]);
+        activeCableLine.lineBetween(
+            sourceCable.x + (sourceCable.width / 2), sourceCable.y,
+            toPos.x, toPos.y
+        );
 
+        activeCableLine.lineStyle(5, this.cableColour[this.colour]);
         activeCableLine.lineBetween(
             sourceCable.x + (sourceCable.width / 2), sourceCable.y,
             toPos.x, toPos.y
@@ -187,6 +198,7 @@ export default class Station extends GameObjects.Group {
 
     private plugCableIn(cableInHand: string, port: Port) {
         const end = this.getPluggedInEnd(cableInHand);
+        const cable = this.getCable(cableInHand);
 
         if (cableInHand === 'in') {
             this.connectedInPort = port;
@@ -202,9 +214,10 @@ export default class Station extends GameObjects.Group {
         end.setPosition(this.portBeingHovered.x, this.portBeingHovered.y);
 
         this.drawCableLine({
-            x: end.x + (end.width / 2),
-            y: end.y + end.height
+            x: end.x + 16,
+            y: end.y + 10
         });
+        this.scene.children.bringToTop(cable);
         this.scene.clearPortHighlight();
     }
 

@@ -67,6 +67,8 @@ export class Game extends Scene {
       callback: this.updateClock,
       callbackScope: this
     });
+
+    this.generateCallWithDelay(0);
   }
 
   /* private generatePeople(): Phaser.GameObjects.Sprite[][] {
@@ -123,6 +125,28 @@ export class Game extends Scene {
     }
   }
 
+  generateCallWithDelay(delay?: number): void {
+    if (this.minute >= config.gameTime) {
+      return;
+    }
+
+    if (delay === undefined) {
+      const band = this.minute >= config.calls.spawnDelay.fastThreshold
+        ? config.calls.spawnDelay.fast
+        : config.calls.spawnDelay.normal;
+
+      delay = Phaser.Math.Between(band.min, band.max);
+    }
+
+    console.log('spawn in', delay);
+
+    this.time.addEvent({
+      delay,
+      callback: this.generateCall,
+      callbackScope: this
+    });
+  }
+
   generateCall(): void {
     let gotAvailableCaller = false;
     let srcX;
@@ -153,7 +177,13 @@ export class Game extends Scene {
     this.calls.push(new Call(this, sourcePort, destPort));
   }
 
+  updateCallStatus(status?: string): void {
+    // maybe multiple calls?
+    this.generateCallWithDelay();
+  }
+
   private updateClock(): void {
+    console.log('tick', this.minute);
     this.minute++;
 
     if (this.minute === config.gameTime) {
@@ -181,6 +211,7 @@ export class Game extends Scene {
       }
     });
 
+    total = Math.round(total);
     console.log(total);
   }
 }

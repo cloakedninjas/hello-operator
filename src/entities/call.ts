@@ -1,8 +1,9 @@
 import Port from './port';
+import { Game as GameScene } from '../scenes/game';
 import * as config from '../config.json';
 
 export default class Call {
-    scene: Phaser.Scene;
+    scene: GameScene;
     source: Port;
     destination: Port;
     script: string;
@@ -16,7 +17,7 @@ export default class Call {
     complete = false;
     successful = false;
 
-    constructor(scene: Phaser.Scene, source: Port, destination: Port) {
+    constructor(scene: GameScene, source: Port, destination: Port) {
         this.scene = scene;
         this.source = source;
         this.destination = destination;
@@ -97,6 +98,10 @@ export default class Call {
             return;
         }
 
+        if (!success) {
+            this.scene.updateCallStatus('failed_call');
+        }
+
         console.log('call end', success ? 'success' : 'failure');
         this.successful = success;
         this.active = false;
@@ -106,7 +111,10 @@ export default class Call {
         this.callerTimer.destroy();
         this.source.removeCaller();
         this.destination.removeCaller();
-        this.source.stationHandlingCall.turnLightOn('in', false);
-        this.destination.stationHandlingCall.turnLightOn('out', false);
+
+        if (this.source.stationHandlingCall) {
+            this.source.stationHandlingCall.turnLightOn('in', false);
+            this.source.stationHandlingCall.turnLightOn('out', false);
+        }
     }
 }

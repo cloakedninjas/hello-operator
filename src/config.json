@@ -23,6 +23,17 @@
     "numberStartCol": 20,
     "numberStartRow": 30,
     "calls": {
+        "spawnDelay": {
+            "fastThreshold": 2,
+            "normal": {
+                "min": 4000,
+                "max": 6000
+            },
+            "fast": {
+                "min": 2000,
+                "max": 3000
+            }
+        },
         "giveUpWaitingOperatorTime": {
             "min": 8000,
             "max": 15000
@@ -40,7 +51,7 @@
             "max": 30000
         }
     },
-    "gameTime": 1,
+    "gameTime": 3,
     "scoring": {
         "sucessfulCallMax": 100,
         "failPenalty": 5

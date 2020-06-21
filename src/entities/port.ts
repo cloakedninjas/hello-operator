@@ -50,7 +50,7 @@ export default class Port extends Phaser.GameObjects.Sprite {
     }
 
     highlight(): void {
-        this.tint = 0x422241;
+        this.tint = 0xcccccc;
     }
 
     removeHighlight(): void {
@@ -59,7 +59,7 @@ export default class Port extends Phaser.GameObjects.Sprite {
 
     setCall(call: Call): void {
         this.callInProgress = call;
-        this.tint = 0x4400ee;
+        this.tint = 0x440000;
     }
 
     removeCaller(): void {

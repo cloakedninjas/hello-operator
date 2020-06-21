@@ -227,6 +227,7 @@ export default class Station extends GameObjects.Group {
 
             if (port.callInProgress) {
                 this.turnLightOn('in', true);
+                this.scene.updateCallStatus('connect_to_caller');
 
                 if (this.operatorWiredIn) {
                     port.callInProgress.operatorListening();

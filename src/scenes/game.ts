@@ -48,11 +48,13 @@ export class Game extends Scene {
     // add stations
     this.stations = [];
 
+    const stationX = 400;
     const stationY = 550;
+    const stationWidth = 100;
     const colours = ['green', 'white', 'red'];
 
     for (let i = 0; i < config.stations; i++) {
-      const x = (110 * i) + 100;
+      const x = (stationWidth * i) + stationX;
 
       const station = new Station(this, x, stationY, colours[i % 3]);
       this.stations.push(station);

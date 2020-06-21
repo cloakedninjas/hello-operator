@@ -2,9 +2,13 @@ import { GameObjects } from 'phaser';
 import { Game as GameScene } from '../scenes/game';
 import Port from './port';
 
+const cableEndOffset = 68;
+const gapBetweenSockets = 40;
+
 export default class Station extends GameObjects.Group {
     scene: GameScene;
-    bg: GameObjects.Sprite
+    socketIn: GameObjects.Sprite
+    socketOut: GameObjects.Sprite
     switch: GameObjects.Sprite
     bell: GameObjects.Sprite
 
@@ -36,8 +40,6 @@ export default class Station extends GameObjects.Group {
         'green': 0x00704f
     };
 
-    cableEndOffset = 68;
-
     constructor(scene: GameScene, x: number, y: number, colour: string) {
         super(scene, {
             runChildUpdate: true
@@ -46,9 +48,13 @@ export default class Station extends GameObjects.Group {
         this.scene = scene;
         this.colour = colour;
 
-        this.bg = new GameObjects.Sprite(scene, x, y, 'station');
-        this.bg.setOrigin(0);
-        this.add(this.bg, true);
+        this.socketIn = new GameObjects.Sprite(scene, x, y, 'plug_socket');
+        this.socketIn.setOrigin(0, 1);
+        this.add(this.socketIn, true);
+
+        this.socketOut = new GameObjects.Sprite(scene, x + gapBetweenSockets, y, 'plug_socket');
+        this.socketOut.setOrigin(0, 1);
+        this.add(this.socketOut, true);
 
         this.switch = new GameObjects.Sprite(scene, x + 10, y + 90, 'switch_left');
         this.switch.setOrigin(0);
@@ -65,13 +71,13 @@ export default class Station extends GameObjects.Group {
         });
         this.add(this.bell, true);
 
-        this.sourceCable = new GameObjects.Sprite(scene, x + 10, y, `plug_${colour}`);
+        this.sourceCable = new GameObjects.Sprite(scene, x, y, `plug_${colour}`);
         this.sourceCable.setOrigin(0, 1);
         this.sourceCable.setInteractive();
         this.sourceCable.on('pointerdown', this.grabCable.bind(this, 'in'));
         this.add(this.sourceCable, true);
 
-        this.destCable = new GameObjects.Sprite(scene, x + 60, y, `plug_${colour}`);
+        this.destCable = new GameObjects.Sprite(scene, x + gapBetweenSockets, y, `plug_${colour}`);
         this.destCable.setOrigin(0, 1);
         this.destCable.setInteractive();
         this.destCable.on('pointerdown', this.grabCable.bind(this, 'out'));
@@ -117,8 +123,8 @@ export default class Station extends GameObjects.Group {
         this.scene.children.bringToTop(this.activeOutCableLine);
 
         this.drawCableLine({
-            x: this.floatingCableEnd.x + this.cableEndOffset,
-            y: this.floatingCableEnd.y + this.cableEndOffset
+            x: this.floatingCableEnd.x + cableEndOffset,
+            y: this.floatingCableEnd.y + cableEndOffset
         });
     }
 
@@ -130,8 +136,8 @@ export default class Station extends GameObjects.Group {
         this.floatingCableEnd.setPosition(pointer.x, pointer.y);
 
         this.drawCableLine({
-            x: this.floatingCableEnd.x + this.cableEndOffset,
-            y: this.floatingCableEnd.y + this.cableEndOffset
+            x: this.floatingCableEnd.x + cableEndOffset,
+            y: this.floatingCableEnd.y + cableEndOffset
         });
 
         this.portBeingHovered = this.scene.getPortAt(pointer.x, pointer.y);
@@ -163,19 +169,20 @@ export default class Station extends GameObjects.Group {
     }
 
     private drawCableLine(toPos: Phaser.Types.Math.Vector2Like): void {
-        const sourceCable = this.getCable(this.cableInHand);
+        const activeCable = this.getCable(this.cableInHand);
         const activeCableLine = this.getActiveCableLine(this.cableInHand);
+        const portCentre = 11;
 
         activeCableLine.clear();
         activeCableLine.lineStyle(7, this.cableOutineColour[this.colour]);
         activeCableLine.lineBetween(
-            sourceCable.x + (sourceCable.width / 2), sourceCable.y,
+            activeCable.x + portCentre, activeCable.y - 2,
             toPos.x, toPos.y
         );
 
         activeCableLine.lineStyle(5, this.cableColour[this.colour]);
         activeCableLine.lineBetween(
-            sourceCable.x + (sourceCable.width / 2), sourceCable.y,
+            activeCable.x + portCentre, activeCable.y - 2,
             toPos.x, toPos.y
         );
     }

@@ -2,8 +2,12 @@ import Port from './port';
 import { Game as GameScene } from '../scenes/game';
 import * as config from '../config.json';
 
-const personASpeechY = 500;
-const personBSpeechY = 200;
+const speechX = 200;
+const personASpeechY = 480;
+const personBSpeechY = 100;
+const avatarOffsetY = 180;
+const avatarPersonAX = 100;
+const avatarPersonBX = 300;
 
 export default class Call {
     scene: GameScene;
@@ -15,6 +19,7 @@ export default class Call {
     speechBubble: Phaser.GameObjects.Sprite;
     speechText: Phaser.GameObjects.Text;
     speechTimer: Phaser.Time.TimerEvent;
+    avatar: Phaser.GameObjects.Sprite;
 
     callerTimer: Phaser.Time.TimerEvent;
     initTime: number;
@@ -25,6 +30,7 @@ export default class Call {
     complete = false;
     successful = false;
     words: string[];
+    characters: number[];
 
     constructor(scene: GameScene, source: Port, destination: Port, conversation: string) {
         this.scene = scene;
@@ -38,7 +44,6 @@ export default class Call {
         this.source.receiveIncommingCall(this);
         this.destination.expectCall();
 
-        const speechX = 200;
         this.speechBubble = new Phaser.GameObjects.Sprite(scene, speechX, personASpeechY, 'speech_bubble');
         this.speechText = new Phaser.GameObjects.Text(scene, speechX, personASpeechY, '', {
             fontFamily: 'Arial',
@@ -51,11 +56,29 @@ export default class Call {
         });
         this.speechBubble.setOrigin(0.5, 0.4);
         this.speechText.setOrigin(0.5);
+
+        this.characters = [Phaser.Math.Between(1, config.characters)];
+
+        let personB: number;
+
+        while (personB === undefined || personB === this.characters[0]) {
+            personB = Phaser.Math.Between(1, config.characters);
+            this.characters.push(personB);
+        }
+
+        this.avatar = new Phaser.GameObjects.Sprite(scene, avatarPersonAX, personASpeechY + avatarOffsetY, `character_${this.characters[0]}`);
+
         this.speechBubble.visible = false;
         this.speechText.visible = false;
+        this.avatar.visible = false;
+
+        // start them flipped
+        this.speechBubble.toggleFlipX();
+        this.avatar.toggleFlipX();
 
         scene.add.existing(this.speechBubble);
         scene.add.existing(this.speechText);
+        scene.add.existing(this.avatar);
 
         // timeout for successful connection to be made
         this.callerTimer = scene.time.addEvent({
@@ -122,6 +145,7 @@ export default class Call {
     private showDialog(show: boolean): void {
         this.speechBubble.visible = show;
         this.speechText.visible = show;
+        this.avatar.visible = show;
     }
 
     private playConversation(): void {
@@ -130,17 +154,27 @@ export default class Call {
         // alternate speaker
         this.speechText.text = '';
         this.personASpeaking = !this.personASpeaking;
-        this.speechBubble.toggleFlipX();
+
         this.scene.children.bringToTop(this.speechBubble);
         this.scene.children.bringToTop(this.speechText);
+
+        this.speechBubble.toggleFlipX();
+        this.avatar.toggleFlipX();
+
+        const avatarIndex = this.personASpeaking ? 0 : 1;
+        this.avatar.setTexture(`character_${this.characters[avatarIndex]}`);
 
         if (this.personASpeaking) {
             this.speechBubble.y = personASpeechY;
             this.speechText.y = personASpeechY;
+            this.avatar.x = avatarPersonAX;
         } else {
             this.speechBubble.y = personBSpeechY;
             this.speechText.y = personBSpeechY;
+            this.avatar.x = avatarPersonBX;
         }
+
+        this.avatar.y = this.speechBubble.y + avatarOffsetY;
 
         this.textType(text, () => {
             if (this.conversation.length) {
@@ -187,7 +221,6 @@ export default class Call {
             this.scene.updateCallStatus('failed_call');
         }
 
-        console.log('call end', success ? 'success' : 'failure');
         this.successful = success;
         this.active = false;
         this.connected = false;
@@ -206,6 +239,8 @@ export default class Call {
         this.speechBubble = null;
         this.speechText.destroy();
         this.speechText = null;
+        this.avatar.destroy();
+        this.avatar = null;
 
         this.source.removeCall();
         this.destination.removeCall();

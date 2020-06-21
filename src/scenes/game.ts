@@ -201,7 +201,6 @@ export class Game extends Scene {
   }
 
   private updateClock(): void {
-    console.log('tick', this.minute);
     this.minute++;
 
     if (this.minute === config.gameTime) {

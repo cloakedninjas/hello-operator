@@ -12,9 +12,8 @@ export default class Port extends Phaser.GameObjects.Sprite {
         const x = (posX * (config.ports.width + config.ports.padding)) + config.ports.xOffset;
         const y = (posY * (config.ports.height + config.ports.padding)) + config.ports.yOffset;
 
-        super(scene, x, y, 'port');
+        super(scene, x, y, 'switchboard_plug');
 
-        this.setOrigin(0, 0);
         this.setInteractive();
         this.indexPosition = {
             x: posX,

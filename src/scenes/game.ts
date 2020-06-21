@@ -49,7 +49,7 @@ export class Game extends Scene {
     this.stations = [];
 
     const stationX = 400;
-    const stationY = 550;
+    const stationY = 600;
     const stationWidth = 100;
     const colours = ['green', 'white', 'red'];
 
@@ -93,8 +93,11 @@ export class Game extends Scene {
   getPortAt(x: number, y: number): Port {
     this.clearPortHighlight();
 
-    const gridX = Math.floor((x - config.ports.xOffset) / (config.ports.width + config.ports.padding));
-    const gridY = Math.floor((y - config.ports.yOffset) / (config.ports.height + config.ports.padding));
+    const portSize = (config.ports.width) + config.ports.padding;
+    const offset = config.ports.width / 2;
+
+    const gridX = Math.floor((x - config.ports.xOffset + offset) / portSize);
+    const gridY = Math.floor((y - config.ports.yOffset + offset) / portSize);
 
     if (
       gridX < 0 ||

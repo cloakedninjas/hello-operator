@@ -2,11 +2,11 @@
     "ports": {
         "rows": 8,
         "cols": 10,
-        "xOffset": 350,
+        "xOffset": 400,
         "yOffset": 60,
-        "width": 40,
-        "height": 40,
-        "padding": 10
+        "width": 35,
+        "height": 35,
+        "padding": 15
     },
     "stations": 6,
     "peopleParts": {

@@ -1,6 +1,6 @@
 {
     "assetRoot": "assets",
-    "totalSize": 84688,
+    "totalSize": 94541,
     "assets": {
         "image": {
             "background": {
@@ -79,10 +79,6 @@
                 "file": "plug_white_cursor.png",
                 "size": 6561
             },
-            "port": {
-                "file": "port.png",
-                "size": 1107
-            },
             "switch_left": {
                 "file": "switch_left.png",
                 "size": 3097
@@ -90,6 +86,18 @@
             "switch_right": {
                 "file": "switch_right.png",
                 "size": 3035
+            },
+            "switchboard_light_lit": {
+                "file": "switchboard_light_lit.png",
+                "size": 3014
+            },
+            "switchboard_plug": {
+                "file": "switchboard_plug.png",
+                "size": 4195
+            },
+            "switchboard_light_unlit": {
+                "file": "switchboard_light_unlit.png",
+                "size": 2644
             }
         }
     }

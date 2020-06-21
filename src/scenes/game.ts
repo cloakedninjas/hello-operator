@@ -61,6 +61,36 @@ export class Game extends Scene {
       this.add.existing(station);
     }
 
+    // add labels
+
+    const labelX = config.ports.xOffset - 50;
+    const labelY = config.ports.yOffset - 35;
+    const labelStyle: any = { // Partial<Phaser.GameObjects.TextStyle>
+      color: '#000',
+      fontStyle: 'bold',
+      backgroundColor: '#fff',
+      padding: {
+        left: 5,
+        right: 5,
+        top: 3,
+        bottom: 3
+      }
+    };
+
+    for (let i = 0; i < config.ports.cols; i++) {
+      const x = (i * (config.ports.width + config.ports.padding.x)) + config.ports.xOffset;
+      const label = this.add.text(x, labelY, (config.numberStartCol + i).toString(), labelStyle);
+      label.setOrigin(0.5);
+    }
+
+    for (let i = 0; i < config.ports.rows; i++) {
+      const y = (i * (config.ports.height + config.ports.padding.y)) + config.ports.yOffset;
+      const label = this.add.text(labelX, y, (config.numberStartRow + i).toString(), labelStyle);
+      label.setOrigin(0.5);
+    }
+
+    // start game
+
     this.gameTimer = this.time.addEvent({
       delay: 60000, // 1min
       repeat: config.gameTime - 1,
@@ -70,27 +100,6 @@ export class Game extends Scene {
 
     this.generateCallWithDelay(0);
   }
-
-  /* private generatePeople(): Phaser.GameObjects.Sprite[][] {
-    this.people = [];
-
-    for (let i = 0; i < config.portsX; i++) {
-      this.people[i] = [];
-
-      for (let j = 0; j < config.portsY; j++) {
-        const graphics = new Phaser.GameObjects.Graphics(this);
-
-        for (const peoplePart in config.peopleParts) {
-          const rand = Phaser.Math.Between(0, config.peopleParts[peoplePart] - 1);
-          const spriteName = `${peoplePart}_${rand}`;
-          console.log(spriteName);
-        }
-      }
-    }
-
-    return [];
-  }
-   */
 
   getPortAt(x: number, y: number): Port {
     this.clearPortHighlight();

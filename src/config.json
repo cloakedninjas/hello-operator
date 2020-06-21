@@ -12,16 +12,8 @@
         }
     },
     "stations": 6,
-    "peopleParts": {
-        "face": 3,
-        "hair": 3,
-        "eyes": 3,
-        "nose": 3,
-        "mouth": 3,
-        "body": 3
-    },
     "numberStartCol": 20,
-    "numberStartRow": 30,
+    "numberStartRow": 60,
     "calls": {
         "spawnDelay": {
             "fastThreshold": 2,

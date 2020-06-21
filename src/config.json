@@ -31,8 +31,8 @@
             "max": 15000
         },
         "giveUpWaitingConnect": {
-            "min": 5000,
-            "max": 8000
+            "min": 8000,
+            "max": 12000
         },
         "ringDelay": {
             "min": 800,

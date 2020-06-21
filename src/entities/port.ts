@@ -4,13 +4,15 @@ import Station from './station';
 
 export default class Port extends Phaser.GameObjects.Sprite {
     light: Phaser.GameObjects.Sprite;
-
+    callExpected: boolean;
     callInProgress: Call;
     stationHandlingCall: Station;
     cableType: string;
     indexPosition: Phaser.Types.Math.Vector2Like;
     number: string;
     lightFlash: Phaser.Time.TimerEvent;
+
+    debug: Phaser.GameObjects.Graphics;
 
     constructor(scene: Phaser.Scene, posX: number, posY: number) {
         const x = (posX * (config.ports.width + config.ports.padding.x)) + config.ports.xOffset;
@@ -28,6 +30,11 @@ export default class Port extends Phaser.GameObjects.Sprite {
 
         this.light = new Phaser.GameObjects.Sprite(scene, x, y + 32, 'switchboard_light_unlit');
         scene.add.existing(this.light);
+
+        this.debug = new Phaser.GameObjects.Graphics(scene);
+        this.debug.fillStyle(0x00ffff);
+        this.debug.fillRect(x + 18, y - 15, 5, 5);
+        scene.add.existing(this.debug);
     }
 
     plugCableIn(station: Station, cableType: string): void {
@@ -57,15 +64,31 @@ export default class Port extends Phaser.GameObjects.Sprite {
         this.clearTint();
     }
 
-    setCall(call: Call): void {
+    receiveIncommingCall(call: Call): void {
         this.callInProgress = call;
-        this.tint = 0x440000;
+        this.flashLight();
+        this.debug.visible = false;
     }
 
-    removeCaller(): void {
+    connectCall(call: Call): void {
+        this.callInProgress = call;
+
+        this.setLight(true);
+        this.setStationLight(true);
+        this.debug.visible = false;
+    }
+
+    expectCall(): void {
+        this.callExpected = true;
+        this.debug.visible = false;
+    }
+
+    removeCall(): void {
         this.clearTint();
         this.callInProgress = null;
+        this.callExpected = false;
         this.setLight(false);
+        this.debug.visible = true;
     }
 
     flashLight(): void {

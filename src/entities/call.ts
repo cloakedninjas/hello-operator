@@ -23,8 +23,8 @@ export default class Call {
         this.destination = destination;
         this.script = `Hello, put me through to ${destination.number}`;
         this.initTime = scene.time.now;
-        this.source.setCall(this);
-        this.source.flashLight();
+        this.source.receiveIncommingCall(this);
+        this.destination.expectCall();
 
         // timeout for successful connection to be made
         this.callerTimer = scene.time.addEvent({
@@ -46,7 +46,7 @@ export default class Call {
                 callback: this.giveUpWaiting,
                 callbackScope: this
             });
-            // todo
+            // todo - remove
             console.log(this.script);
             this.destination.tint = 0x333333;
         }
@@ -77,9 +77,8 @@ export default class Call {
             // wrong port
             this.endCall(false);
         } else {
-            portConnectedTo.setCall(this);
-            portConnectedTo.setLight(true);
-            portConnectedTo.setStationLight(true);
+            portConnectedTo.connectCall(this);
+
             this.connected = true;
             this.callerTimer = this.scene.time.addEvent({
                 delay: Phaser.Math.Between(config.calls.callDuration.min, config.calls.callDuration.max),
@@ -109,8 +108,10 @@ export default class Call {
         this.complete = true;
 
         this.callerTimer.destroy();
-        this.source.removeCaller();
-        this.destination.removeCaller();
+        this.callerTimer = null;
+
+        this.source.removeCall();
+        this.destination.removeCall();
 
         if (this.source.stationHandlingCall) {
             this.source.stationHandlingCall.turnLightOn('in', false);

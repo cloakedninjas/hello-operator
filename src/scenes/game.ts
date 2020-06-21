@@ -147,8 +147,6 @@ export class Game extends Scene {
       delay = Phaser.Math.Between(band.min, band.max);
     }
 
-    console.log('spawn in', delay);
-
     this.time.addEvent({
       delay,
       callback: this.generateCall,
@@ -161,27 +159,33 @@ export class Game extends Scene {
     let srcX;
     let srcY;
     let sourcePort: Port;
+    let destPort: Port;
 
     while (!gotAvailableCaller) {
       srcX = Phaser.Math.Between(0, config.ports.cols - 1);
       srcY = Phaser.Math.Between(0, config.ports.rows - 1);
 
       sourcePort = this.ports[srcX][srcY];
-      gotAvailableCaller = !sourcePort.callInProgress;
+
+      // port can't be in use
+      gotAvailableCaller = !sourcePort.stationHandlingCall;
     }
 
-    let gotDifferentDestination = false;
+    let gotValidDestination = false;
     let destX;
     let destY;
 
-    while (!gotDifferentDestination) {
+    while (!gotValidDestination) {
       destX = Phaser.Math.Between(0, config.ports.cols - 1);
       destY = Phaser.Math.Between(0, config.ports.rows - 1);
 
-      gotDifferentDestination = !(destX === srcX && destY === srcY);
-    }
+      if (destX === srcX && destY === srcY) {
+        continue;
+      }
 
-    const destPort = this.ports[destX][destY];
+      destPort = this.ports[destX][destY];
+      gotValidDestination = !destPort.stationHandlingCall && !destPort.callInProgress && !destPort.callExpected;
+    }
 
     this.calls.push(new Call(this, sourcePort, destPort));
   }

@@ -168,7 +168,7 @@ export default class Station extends GameObjects.Group {
 
         this.floatingCableEnd.visible = false;
 
-        if (this.portBeingHovered && !this.portBeingHovered.isCablePluggedIn) {
+        if (this.portBeingHovered && !this.portBeingHovered.stationHandlingCall) {
             // cable got plugged in
             this.plugCableIn(this.cableInHand, this.portBeingHovered);
 
@@ -220,13 +220,17 @@ export default class Station extends GameObjects.Group {
         const cable = this.getCable(cableInHand);
 
         // inform Port they have cable
-        port.plugCableIn(this.cableInHand);
+        port.plugCableIn(this, this.cableInHand);
 
         if (cableInHand === 'in') {
             this.connectedInPort = port;
 
-            if (port.callInProgress && this.operatorWiredIn) {
-                port.callInProgress.operatorListening();
+            if (port.callInProgress) {
+                this.turnLightOn('in', true);
+
+                if (this.operatorWiredIn) {
+                    port.callInProgress.operatorListening();
+                }
             }
         } else {
             this.connectedOutPort = port;
@@ -254,6 +258,8 @@ export default class Station extends GameObjects.Group {
         } else {
             this.connectedOutPort = null;
         }
+
+        this.turnLightOn(cable, false);
     }
 
     private ringDestination(): void {
@@ -272,5 +278,11 @@ export default class Station extends GameObjects.Group {
         if (this.connectedInPort && this.connectedInPort.callInProgress && this.operatorWiredIn) {
             this.connectedInPort.callInProgress.operatorListening();
         }
+    }
+
+    turnLightOn(whichLight: string, on: boolean): void {
+        const light = whichLight === 'in' ? this.sourceLight : this.destLight;
+        const texture = on ? `light_${this.colour}_lit` : `light_${this.colour}_unlit`;
+        light.setTexture(texture);
     }
 }

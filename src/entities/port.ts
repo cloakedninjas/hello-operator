@@ -1,11 +1,12 @@
 import * as config from '../config.json';
 import Call from './call';
+import Station from './station';
 
 export default class Port extends Phaser.GameObjects.Sprite {
     light: Phaser.GameObjects.Sprite;
 
-    isCablePluggedIn: boolean;
     callInProgress: Call;
+    stationHandlingCall: Station;
     cableType: string;
     indexPosition: Phaser.Types.Math.Vector2Like;
     number: string;
@@ -29,8 +30,8 @@ export default class Port extends Phaser.GameObjects.Sprite {
         scene.add.existing(this.light);
     }
 
-    plugCableIn(cableType: string): void {
-        this.isCablePluggedIn = true;
+    plugCableIn(station: Station, cableType: string): void {
+        this.stationHandlingCall = station;
         this.cableType = cableType;
 
         if (this.callInProgress) {
@@ -39,7 +40,7 @@ export default class Port extends Phaser.GameObjects.Sprite {
     }
 
     unplug(): void {
-        this.isCablePluggedIn = false;
+        this.stationHandlingCall = null;
         this.cableType = null;
 
         if (this.callInProgress) {
@@ -83,5 +84,11 @@ export default class Port extends Phaser.GameObjects.Sprite {
         }
 
         this.light.setTexture(on ? 'switchboard_light_lit' : 'switchboard_light_unlit');
+    }
+
+    setStationLight(on: boolean): void {
+        if (this.callInProgress && this.stationHandlingCall) {
+            this.stationHandlingCall.turnLightOn('out', on);
+        }
     }
 }

@@ -78,6 +78,7 @@ export default class Call {
         } else {
             portConnectedTo.setCall(this);
             portConnectedTo.setLight(true);
+            portConnectedTo.setStationLight(true);
             this.connected = true;
             this.callerTimer = this.scene.time.addEvent({
                 delay: Phaser.Math.Between(config.calls.callDuration.min, config.calls.callDuration.max),
@@ -105,5 +106,7 @@ export default class Call {
         this.callerTimer.destroy();
         this.source.removeCaller();
         this.destination.removeCaller();
+        this.source.stationHandlingCall.turnLightOn('in', false);
+        this.destination.stationHandlingCall.turnLightOn('out', false);
     }
 }

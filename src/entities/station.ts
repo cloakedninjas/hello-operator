@@ -31,6 +31,8 @@ export default class Station extends GameObjects.Group {
     connectedInPort: Port;
     connectedOutPort: Port;
 
+    bellSound: Phaser.Sound.BaseSound;
+
     cableOutineColour = {
         'red': 0x3c0803,
         'white': 0x303030,
@@ -82,6 +84,13 @@ export default class Station extends GameObjects.Group {
         this.bell.on('pointerdown', this.ringDestination, this);
         this.bell.on('pointerup', () => {
             this.bell.setTexture('button');
+            scene.tweens.add({
+                targets: this.bellSound,
+                props: {
+                    volume: 0
+                },
+                duration: 100
+            });
         });
         this.add(this.bell, true);
 
@@ -179,6 +188,7 @@ export default class Station extends GameObjects.Group {
         }
 
         this.cableInHand = null;
+        this.scene.sound.play('releaseplug');
     }
 
     private drawCableLine(toPos: Phaser.Types.Math.Vector2Like): void {
@@ -244,6 +254,8 @@ export default class Station extends GameObjects.Group {
         });
         this.scene.children.bringToTop(cable);
         this.scene.clearPortHighlight();
+
+        this.scene.sound.play(`plugin${Phaser.Math.Between(1, 2)}`);
     }
 
     private unplugCable(cable: string): void {
@@ -259,6 +271,7 @@ export default class Station extends GameObjects.Group {
         }
 
         this.toggleLight(cable, false);
+        this.scene.sound.play('releaseplug');
     }
 
     private ringDestination(): void {
@@ -267,6 +280,15 @@ export default class Station extends GameObjects.Group {
             // only allow ring when both connected
             this.connectedInPort.callInProgress.destinationRung(this.connectedOutPort);
         }
+
+        if (this.bellSound) {
+            this.bellSound.stop();
+        }
+        this.bellSound = this.scene.sound.get('ringerloop');
+        this.bellSound.play({
+            volume: 1,
+            loop: true
+        });
     }
 
     private flipSwitch(): void {
@@ -276,6 +298,12 @@ export default class Station extends GameObjects.Group {
 
         if (this.connectedInPort && this.connectedInPort.callInProgress) {
             this.connectedInPort.callInProgress.operatorListening(this.operatorWiredIn);
+        }
+
+        if (this.operatorWiredIn) {
+            this.scene.sound.play('talkswitchon');
+        } else {
+            this.scene.sound.play('talkswitchoff');
         }
     }
 

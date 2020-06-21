@@ -94,6 +94,21 @@ export class Game extends Scene {
     this.conversations = this.cache.text.get('conversations').split('===\r\n');
     this.conversations = Phaser.Utils.Array.Shuffle(this.conversations);
 
+    // load sounds
+
+    const sounds = [
+      'talkswitchon',
+      'talkswitchoff',
+      'plugin1',
+      'plugin2',
+      'releaseplug',
+      'ringerloop',
+    ];
+
+    sounds.forEach(sound => {
+      this.sound.add(sound);
+    });
+
     // start game
 
     this.gameTimer = this.time.addEvent({

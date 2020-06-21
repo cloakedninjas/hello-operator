@@ -34,7 +34,11 @@ export default class Preload extends Scene {
 
         if (fileType === 'spritesheet') {
           this.load[fileType](key, url, assetVars.frameConfig);
-        } else {
+        } else if (fileType === 'audio') {
+          const mp3Version = url.replace(/\.ogg$/, '.mp3');
+          this.load[fileType](key, [url, mp3Version]);
+        }
+        else {
           this.load[fileType](key, url);
         }
       });

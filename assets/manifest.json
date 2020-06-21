@@ -1,1 +1,224 @@
-{"assetRoot":"assets","totalSize":495619,"assets":{"image":{"background":{"file":"background.png","size":84988},"button":{"file":"button.png","size":2602},"button_pressed":{"file":"button_pressed.png","size":2554},"light_green_lit":{"file":"light_green_lit.png","size":3827},"light_green_unlit":{"file":"light_green_unlit.png","size":3564},"light_red_lit":{"file":"light_red_lit.png","size":3766},"light_red_unlit":{"file":"light_red_unlit.png","size":3533},"light_white_lit":{"file":"light_white_lit.png","size":3746},"light_white_unlit":{"file":"light_white_unlit.png","size":3686},"plugged_green":{"file":"plugged_green.png","size":3220},"plugged_red":{"file":"plugged_red.png","size":3686},"plugged_white":{"file":"plugged_white.png","size":3520},"plug_green_cursor":{"file":"plug_green_cursor.png","size":6036},"plug_green":{"file":"plug_green.png","size":3311},"plug_red":{"file":"plug_red.png","size":3455},"plug_red_cursor":{"file":"plug_red_cursor.png","size":6762},"plug_socket":{"file":"plug_socket.png","size":2276},"plug_white":{"file":"plug_white.png","size":3528},"plug_white_cursor":{"file":"plug_white_cursor.png","size":6561},"switch_left":{"file":"switch_left.png","size":3097},"switch_right":{"file":"switch_right.png","size":3035},"switchboard_light_lit":{"file":"switchboard_light_lit.png","size":3014},"switchboard_plug":{"file":"switchboard_plug.png","size":4195},"switchboard_light_unlit":{"file":"switchboard_light_unlit.png","size":2644},"speech_bubble":{"file":"speech_bubble.png","size":12686},"character_1":{"file":"character_1.png","size":26835},"character_2":{"file":"character_2.png","size":30023},"character_3":{"file":"character_3.png","size":29669},"character_4":{"file":"character_4.png","size":23273},"character_5":{"file":"character_5.png","size":25331},"character_7":{"file":"character_7.png","size":28978},"character_6":{"file":"character_6.png","size":27878},"character_9":{"file":"character_9.png","size":28493},"character_8":{"file":"character_8.png","size":29624}},"text":{"conversations":{"file":"conversations.txt","size":331}}}}
+{
+    "assetRoot": "assets",
+    "totalSize": 6076578,
+    "assets": {
+        "image": {
+            "button": {
+                "file": "button.png",
+                "size": 2602
+            },
+            "background": {
+                "file": "background.png",
+                "size": 84988
+            },
+            "button_pressed": {
+                "file": "button_pressed.png",
+                "size": 2554
+            },
+            "character_1": {
+                "file": "character_1.png",
+                "size": 26835
+            },
+            "character_2": {
+                "file": "character_2.png",
+                "size": 30023
+            },
+            "character_3": {
+                "file": "character_3.png",
+                "size": 29669
+            },
+            "character_4": {
+                "file": "character_4.png",
+                "size": 23273
+            },
+            "character_5": {
+                "file": "character_5.png",
+                "size": 25331
+            },
+            "character_6": {
+                "file": "character_6.png",
+                "size": 27878
+            },
+            "character_7": {
+                "file": "character_7.png",
+                "size": 28978
+            },
+            "character_8": {
+                "file": "character_8.png",
+                "size": 29624
+            },
+            "character_9": {
+                "file": "character_9.png",
+                "size": 28493
+            },
+            "light_green_lit": {
+                "file": "light_green_lit.png",
+                "size": 3827
+            },
+            "light_red_unlit": {
+                "file": "light_red_unlit.png",
+                "size": 3533
+            },
+            "light_green_unlit": {
+                "file": "light_green_unlit.png",
+                "size": 3564
+            },
+            "light_red_lit": {
+                "file": "light_red_lit.png",
+                "size": 3766
+            },
+            "light_white_lit": {
+                "file": "light_white_lit.png",
+                "size": 3746
+            },
+            "light_white_unlit": {
+                "file": "light_white_unlit.png",
+                "size": 3686
+            },
+            "plugged_green": {
+                "file": "plugged_green.png",
+                "size": 3220
+            },
+            "plugged_red": {
+                "file": "plugged_red.png",
+                "size": 3686
+            },
+            "plugged_white": {
+                "file": "plugged_white.png",
+                "size": 3520
+            },
+            "plug_green": {
+                "file": "plug_green.png",
+                "size": 3311
+            },
+            "plug_green_cursor": {
+                "file": "plug_green_cursor.png",
+                "size": 6036
+            },
+            "plug_red": {
+                "file": "plug_red.png",
+                "size": 3455
+            },
+            "plug_red_cursor": {
+                "file": "plug_red_cursor.png",
+                "size": 6762
+            },
+            "plug_socket": {
+                "file": "plug_socket.png",
+                "size": 2276
+            },
+            "plug_white": {
+                "file": "plug_white.png",
+                "size": 3528
+            },
+            "plug_white_cursor": {
+                "file": "plug_white_cursor.png",
+                "size": 6561
+            },
+            "switchboard_light_lit": {
+                "file": "switchboard_light_lit.png",
+                "size": 3014
+            },
+            "speech_bubble": {
+                "file": "speech_bubble.png",
+                "size": 12686
+            },
+            "switchboard_light_unlit": {
+                "file": "switchboard_light_unlit.png",
+                "size": 2644
+            },
+            "switchboard_plug": {
+                "file": "switchboard_plug.png",
+                "size": 4195
+            },
+            "switch_left": {
+                "file": "switch_left.png",
+                "size": 3097
+            },
+            "switch_right": {
+                "file": "switch_right.png",
+                "size": 3035
+            }
+        },
+        "text": {
+            "conversations": {
+                "file": "conversations.txt",
+                "size": 3195
+            }
+        },
+        "audio": {
+            "chatter1": {
+                "file": "chatter1.ogg",
+                "size": 20974
+            },
+            "chatter2": {
+                "file": "chatter2.ogg",
+                "size": 22320
+            },
+            "chatter3": {
+                "file": "chatter3.ogg",
+                "size": 19800
+            },
+            "chatteruhhuh": {
+                "file": "chatteruhhuh.ogg",
+                "size": 6776
+            },
+            "chatterthankyou": {
+                "file": "chatterthankyou.ogg",
+                "size": 7236
+            },
+            "endscreen": {
+                "file": "endscreen.ogg",
+                "size": 92504
+            },
+            "grabplug": {
+                "file": "grabplug.ogg",
+                "size": 10584
+            },
+            "maintheme": {
+                "file": "maintheme.ogg",
+                "size": 2270547
+            },
+            "plugin2": {
+                "file": "plugin2.ogg",
+                "size": 11893
+            },
+            "plugin1": {
+                "file": "plugin1.ogg",
+                "size": 12003
+            },
+            "plugout1": {
+                "file": "plugout1.ogg",
+                "size": 11291
+            },
+            "plugout2": {
+                "file": "plugout2.ogg",
+                "size": 10487
+            },
+            "releaseplug": {
+                "file": "releaseplug.ogg",
+                "size": 7560
+            },
+            "ringerloop": {
+                "file": "ringerloop.ogg",
+                "size": 22320
+            },
+            "talkswitchoff": {
+                "file": "talkswitchoff.ogg",
+                "size": 6120
+            },
+            "talkswitchon": {
+                "file": "talkswitchon.ogg",
+                "size": 6120
+            },
+            "titlescreen": {
+                "file": "titlescreen.ogg",
+                "size": 411438
+            },
+            "uibutton": {
+                "file": "uibutton.ogg",
+                "size": 16483
+            }
+        }
+    }
+}

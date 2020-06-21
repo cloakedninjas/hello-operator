@@ -272,7 +272,7 @@ export default class Station extends GameObjects.Group {
     private flipSwitch(): void {
         this.operatorWiredIn = !this.operatorWiredIn;
 
-        this.switch.setTexture(this.operatorWiredIn ? 'switch_left' : 'switch_right');
+        this.switch.setTexture(this.operatorWiredIn ? 'switch_right' : 'switch_left');
 
         if (this.connectedInPort && this.connectedInPort.callInProgress) {
             this.connectedInPort.callInProgress.operatorListening(this.operatorWiredIn);

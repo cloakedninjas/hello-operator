@@ -63,9 +63,9 @@ export default class Call {
 
         while (personB === undefined || personB === this.characters[0]) {
             personB = Phaser.Math.Between(1, config.characters);
-            this.characters.push(personB);
         }
 
+        this.characters.push(personB);
         this.avatar = new Phaser.GameObjects.Sprite(scene, avatarPersonAX, personASpeechY + avatarOffsetY, `character_${this.characters[0]}`);
 
         this.speechBubble.visible = false;

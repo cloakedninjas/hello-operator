@@ -269,8 +269,7 @@ export class Game extends Scene {
     this.calls.push(new Call(this, sourcePort, destPort, this.conversations[conversationIndex]));
   }
 
-  updateCallStatus(status?: string): void {
-    // maybe multiple calls?
+  updateCallStatus(): void {
     this.generateCallWithDelay();
   }
 

@@ -1,6 +1,7 @@
 import { GameObjects } from 'phaser';
 import { Game as GameScene } from '../scenes/game';
 import Port from './port';
+import * as config from '../config.json';
 
 const cableEndOffset = 68;
 const gapBetweenSockets = 40;
@@ -139,8 +140,11 @@ export default class Station extends GameObjects.Group {
         this.cableInHand = cable;
         this.getCable(cable).visible = false;
         this.getActiveCableLine(cable).visible = true;
+
         this.floatingCableEnd.visible = true;
-        this.floatingCableEnd.setPosition(pointer.x, pointer.y);
+        this.floatingCableEnd.setPosition(
+            pointer.x - config.cablePointerOffset.x,
+            pointer.y - config.cablePointerOffset.y);
 
         this.scene.children.bringToTop(this.floatingCableEnd);
         this.scene.children.bringToTop(this.activeOutCableLine);
@@ -156,7 +160,9 @@ export default class Station extends GameObjects.Group {
             return;
         }
 
-        this.floatingCableEnd.setPosition(pointer.x, pointer.y);
+        this.floatingCableEnd.setPosition(
+            pointer.x - config.cablePointerOffset.x,
+            pointer.y - config.cablePointerOffset.y);
 
         this.drawCableLine({
             x: this.floatingCableEnd.x + cableEndOffset,

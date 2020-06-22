@@ -1,4 +1,8 @@
 {
+    "cablePointerOffset": {
+        "x": 35,
+        "y": 28
+    },
     "ports": {
         "rows": 6,
         "cols": 11,

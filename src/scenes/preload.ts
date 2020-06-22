@@ -51,13 +51,13 @@ export default class Preload extends Scene {
   }
 
   create(): void {
-    //this.scene.start('MenuScene');
-    this.scene.start('ScoreScene', {
+    this.scene.start('MenuScene');
+    /* this.scene.start('ScoreScene', {
       points: 3456,
       received: 23,
       answered: 19,
       connected: 17,
       dropped: 4
-    });
+    }); */
   }
 }

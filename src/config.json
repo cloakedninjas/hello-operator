@@ -47,7 +47,7 @@
             "max": 30000
         }
     },
-    "gameTime": 3,
+    "gameTime": 180,
     "scoring": {
         "successfulCallMaxScore": 100,
         "failPenalty": 5

@@ -87,7 +87,7 @@ export class Game extends Scene {
       s: this.add.image(751, y, 'timer_numbers', 0)
     };
 
-    this.totalGameTime = config.gameTime * 60;
+    this.totalGameTime = config.gameTime;
     this.renderClock();
 
     // help btn
@@ -364,6 +364,8 @@ export class Game extends Scene {
     this.gameTimer.paused = true;
     this.nextGeneratedCall.paused = true;
 
+    this.music.pause();
+
     this.calls.forEach(call => {
       call.togglePause(true);
     });
@@ -376,6 +378,8 @@ export class Game extends Scene {
 
     this.gameTimer.paused = false;
     this.nextGeneratedCall.paused = true;
+
+    this.music.resume();
 
     this.calls.forEach(call => {
       call.togglePause(false);

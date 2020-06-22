@@ -22,6 +22,8 @@ export default class Call {
     avatar: Phaser.GameObjects.Sprite;
 
     callerTimer: Phaser.Time.TimerEvent;
+    failTimer: Phaser.Time.TimerEvent;
+
     initTime: number;
     endTime: number;
 
@@ -85,7 +87,7 @@ export default class Call {
         scene.add.existing(this.avatar);
 
         // timeout for successful connection to be made
-        this.callerTimer = scene.time.addEvent({
+        this.failTimer = scene.time.addEvent({
             delay: Phaser.Math.Between(config.calls.giveUpWaitingOperatorTime.min, config.calls.giveUpWaitingOperatorTime.max),
             callback: this.giveUpWaiting,
             callbackScope: this
@@ -97,22 +99,20 @@ export default class Call {
 
         if (!(this.active && this.connected)) {
             this.answered = true;
-            this.callerTimer.destroy();
-            this.callerTimer = this.scene.time.addEvent({
+            this.failTimer.destroy();
+            this.failTimer = this.scene.time.addEvent({
                 delay: Phaser.Math.Between(config.calls.giveUpWaitingConnect.min, config.calls.giveUpWaitingConnect.max),
                 callback: this.giveUpWaiting,
                 callbackScope: this
             });
 
             this.textType(`Hello, put me through to ${this.destination.number}`)
-            // todo - remove
-            //this.destination.tint = 0x333333;
         }
     }
 
     destinationRung(portConnectedTo: Port): void {
         // after short delay, connect call
-        this.callerTimer.destroy();
+        this.failTimer.destroy();
         this.callerTimer = this.scene.time.addEvent({
             delay: Phaser.Math.Between(config.calls.ringDelay.min, config.calls.ringDelay.max),
             callback: this.connectCall.bind(this, portConnectedTo)
@@ -121,9 +121,16 @@ export default class Call {
     }
 
     disconnect(): void {
-        console.log('operator disconnected live call');
         this.dropped = true;
-        this.callerTimer.destroy();
+
+        if (this.failTimer) {
+            this.failTimer.destroy();
+        }
+
+        if (this.callerTimer) {
+            this.callerTimer.destroy();
+        }
+
         this.endCall(false);
     }
 
@@ -247,8 +254,15 @@ export default class Call {
         this.complete = true;
 
         // clean up game objects
-        this.callerTimer.destroy();
-        this.callerTimer = null;
+        if (this.callerTimer) {
+            this.callerTimer.destroy();
+            this.callerTimer = null;
+        }
+
+        if (this.failTimer) {
+            this.failTimer.destroy();
+            this.failTimer = null;
+        }
 
         if (this.speechTimer) {
             this.speechTimer.destroy();

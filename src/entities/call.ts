@@ -7,7 +7,7 @@ const personASpeechY = 480;
 const personBSpeechY = 100;
 const avatarOffsetY = 180;
 const avatarPersonAX = 100;
-const avatarPersonBX = 300;
+const avatarPersonBX = 285;
 
 export default class Call {
     scene: GameScene;

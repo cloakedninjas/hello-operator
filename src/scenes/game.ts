@@ -32,8 +32,7 @@ export class Game extends Scene {
   }
 
   create(): void {
-    // todo remove
-    window['scene'] = this;
+    //window['scene'] = this;
 
     this.music = this.sound.add('maintheme');
 
@@ -83,6 +82,8 @@ export class Game extends Scene {
       ss: this.add.image(718, y, 'timer_numbers', 0),
       s: this.add.image(751, y, 'timer_numbers', 0)
     };
+
+    this.renderClock();
 
     // add stations
     this.stations = [];
@@ -272,6 +273,14 @@ export class Game extends Scene {
   private updateClock(): void {
     this.second++;
 
+    this.renderClock();
+
+    if (this.second >= this.totalGameTime) {
+      this.scene.start('ScoreScene', this.getScores());
+    }
+  }
+
+  private renderClock(): void {
     const timeLeft = this.totalGameTime - this.second
     let secs = (timeLeft % 60).toString();
 
@@ -282,10 +291,6 @@ export class Game extends Scene {
     this.timer.m.setFrame(Math.floor(timeLeft / 60));
     this.timer.s.setFrame(secs[1]);
     this.timer.ss.setFrame(secs[0]);
-
-    if (this.second >= this.totalGameTime) {
-      this.scene.start('ScoreScene', this.getScores());
-    }
   }
 
   private getScores(): ScoreData {
@@ -297,7 +302,7 @@ export class Game extends Scene {
       answered: 0,
       connected: 0,
       dropped: 0,
-      approved: 1
+      approved: false
     };
 
     this.calls.forEach((call) => {
@@ -326,6 +331,7 @@ export class Game extends Scene {
     });
 
     scores.points = Math.round(scores.points);
+    scores.approved = scores.points > 0;
 
     return scores;
   }

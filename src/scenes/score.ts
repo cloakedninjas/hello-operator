@@ -18,19 +18,26 @@ export default class Score extends Scene {
     }
 
     create(): void {
+        this.music = this.sound.add('endscreen');
         const mainMusic = this.sound.get('maintheme');
 
-        this.music = this.sound.add('endscreen');
-        this.tweens.add({
-            targets: mainMusic,
-            props: {
-                volume: 0
-            },
-            duration: 300,
-            onComplete: () => {
-                this.music.play();
-            }
-        });
+        if (mainMusic) {
+            this.tweens.add({
+                targets: mainMusic,
+                props: {
+                    volume: 0
+                },
+                duration: 300,
+                onComplete: () => {
+                    this.music.play();
+                }
+            });
+        }
+
+        this.sound.add('sealslap');
+        this.sound.add('seal1');
+        this.sound.add('seal2');
+        this.sound.add('seal3');
 
         const bg = this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height, 0xc69c6d);
         bg.setOrigin(0);
@@ -63,14 +70,22 @@ export default class Score extends Scene {
 
         this.time.addEvent({
             delay: 1000,
-            callback: this.slap,
-            callbackScope: this
+            callback: () => {
+                this.sound.play('seal' + Phaser.Math.Between(1, 3));
+
+                this.time.addEvent({
+                    delay: 400,
+                    callback: this.slap,
+                    callbackScope: this
+                });
+            }
         })
     }
 
     private slap(): void {
         this.flipper = this.add.image(56, 384, 'flipper');
 
+        this.sound.play('sealslap');
         this.tweens.add({
             targets: this.flipper,
             props: {
@@ -115,5 +130,5 @@ export interface ScoreData {
     answered: number
     connected: number
     dropped: number,
-    approved: number
+    approved: boolean
 }

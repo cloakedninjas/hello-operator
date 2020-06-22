@@ -114,6 +114,12 @@ export default class Call {
     destinationRung(portConnectedTo: Port): void {
         // after short delay, connect call
         this.failTimer.destroy();
+
+        if (this.callerTimer) {
+            // user spam clicking the button
+            return;
+        }
+
         this.callerTimer = this.scene.time.addEvent({
             delay: Phaser.Math.Between(config.calls.ringDelay.min, config.calls.ringDelay.max),
             callback: this.connectCall.bind(this, portConnectedTo)

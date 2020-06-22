@@ -1,6 +1,6 @@
 {
     "assetRoot": "assets",
-    "totalSize": 7115004,
+    "totalSize": 7281377,
     "assets": {
         "audio": {
             "chatter1": {
@@ -14,14 +14,6 @@
             "chatter3": {
                 "file": "chatter3.ogg",
                 "size": 23093
-            },
-            "chatterthankyou": {
-                "file": "chatterthankyou.ogg",
-                "size": 7236
-            },
-            "chatteruhhuh": {
-                "file": "chatteruhhuh.ogg",
-                "size": 6776
             },
             "endscreen": {
                 "file": "endscreen.ogg",
@@ -94,6 +86,34 @@
             "chatter9": {
                 "file": "chatter9.ogg",
                 "size": 6120
+            },
+            "sealslap": {
+                "file": "sealslap.ogg",
+                "size": 10288
+            },
+            "seal1": {
+                "file": "seal1.ogg",
+                "size": 9041
+            },
+            "seal2": {
+                "file": "seal2.ogg",
+                "size": 12624
+            },
+            "seal3": {
+                "file": "seal3.ogg",
+                "size": 9407
+            },
+            "operator1": {
+                "file": "operator1.ogg",
+                "size": 13618
+            },
+            "operator2": {
+                "file": "operator2.ogg",
+                "size": 15771
+            },
+            "operator3": {
+                "file": "operator3.ogg",
+                "size": 19304
             }
         },
         "text": {

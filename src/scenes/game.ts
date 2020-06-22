@@ -3,6 +3,7 @@ import Port from '../entities/port';
 import Station from '../entities/station';
 import Call from '../entities/call';
 import * as config from '../config.json';
+import { ScoreData } from './score';
 
 export class Game extends Scene {
   switchBoard: Phaser.GameObjects.Image;
@@ -15,6 +16,7 @@ export class Game extends Scene {
   gameTimer: Phaser.Time.TimerEvent;
   conversations: string[];
   nextGeneratedCall: Phaser.Time.TimerEvent;
+  music: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
@@ -23,7 +25,24 @@ export class Game extends Scene {
   }
 
   create(): void {
+    // todo remove
     window['scene'] = this;
+
+    this.music = this.sound.add('maintheme');
+
+    const introMusic = this.sound.get('titlescreen');
+
+    this.tweens.add({
+      targets: introMusic,
+      props: {
+        volume: 0
+      },
+      duration: 300,
+      onComplete: () => {
+        this.music.play({ loop: true });
+      }
+    });
+
     this.switchBoard = this.add.image(0, 0, 'background');
     this.switchBoard.setOrigin(0.5, 0);
     this.switchBoard.setPosition(this.cameras.main.centerX, 0);
@@ -114,7 +133,7 @@ export class Game extends Scene {
     // start game
 
     this.gameTimer = this.time.addEvent({
-      delay: 60000, // 1min
+      delay: 60000, //60000, // 1min
       repeat: config.gameTime - 1,
       callback: this.updateClock,
       callbackScope: this
@@ -226,15 +245,21 @@ export class Game extends Scene {
     this.minute++;
 
     if (this.minute === config.gameTime) {
-      console.log('game over');
-      this.getScores();
-      //this.scene.start('results');
+      this.scene.start('ScoreScene', this.getScores());
     }
   }
 
-  private getScores(): void {
+  private getScores(): ScoreData {
     const maxAllowedWaitTime = config.calls.giveUpWaitingConnect.max + config.calls.giveUpWaitingOperatorTime.max;
-    let total = 0;
+
+    const scores: ScoreData = {
+      points: 0,
+      received: 0,
+      answered: 0,
+      connected: 0,
+      dropped: 0,
+      approved: 1
+    };
 
     this.calls.forEach((call) => {
       if (call.connected) {
@@ -242,15 +267,27 @@ export class Game extends Scene {
         call.completeCall();
       }
 
+      scores.received++;
+
+      if (call.answered) {
+        scores.answered++;
+      }
+
+      if (call.dropped) {
+        scores.dropped++;
+      }
+
       if (call.successful) {
         const timeSpentWaiting = call.endTime - call.initTime;
-        total += (1 - (timeSpentWaiting / maxAllowedWaitTime)) * config.scoring.successfulCallMaxScore;
+        scores.points += (1 - (timeSpentWaiting / maxAllowedWaitTime)) * config.scoring.successfulCallMaxScore;
+        scores.connected++;
       } else {
-        total -= config.scoring.failPenalty;
+        scores.points -= config.scoring.failPenalty;
       }
     });
 
-    total = Math.round(total);
-    console.log(total);
+    scores.points = Math.round(scores.points);
+
+    return scores;
   }
 }

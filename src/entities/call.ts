@@ -29,6 +29,9 @@ export default class Call {
     connected = false;
     complete = false;
     successful = false;
+    answered = false;
+    dropped: boolean;
+
     words: string[];
     characters: number[];
     chatter: Phaser.Sound.BaseSound;
@@ -93,6 +96,7 @@ export default class Call {
         this.showDialog(isOperatorListening);
 
         if (!(this.active && this.connected)) {
+            this.answered = true;
             this.callerTimer.destroy();
             this.callerTimer = this.scene.time.addEvent({
                 delay: Phaser.Math.Between(config.calls.giveUpWaitingConnect.min, config.calls.giveUpWaitingConnect.max),
@@ -118,6 +122,7 @@ export default class Call {
 
     disconnect(): void {
         console.log('operator disconnected live call');
+        this.dropped = true;
         this.callerTimer.destroy();
         this.endCall(false);
     }
@@ -149,7 +154,6 @@ export default class Call {
         this.avatar.visible = show;
 
         if (this.chatter) {
-            console.log(this.chatter.isPlaying);
             (this.chatter as any).setVolume(1);
         }
     }

@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 
 export default class Menu extends Scene {
     tutorial = true;
+    music: Phaser.Sound.BaseSound;
 
     constructor() {
         super({
@@ -75,6 +76,12 @@ export default class Menu extends Scene {
         });
 
         // 1 more animal....
+
+        this.music = this.sound.add('titlescreen');
+        this.music.play({
+            loop: true,
+            volume: 1
+        });
     }
 
     showUI(): void {

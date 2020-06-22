@@ -3,7 +3,8 @@ import { Scene } from 'phaser';
 export default class Score extends Scene {
     scoreData: ScoreData;
     report: Phaser.GameObjects.Image;
-    flipper: import("phaser").GameObjects.Image;
+    flipper: Phaser.GameObjects.Image;
+    music: Phaser.Sound.BaseSound;
 
     constructor() {
         super({
@@ -16,6 +17,20 @@ export default class Score extends Scene {
     }
 
     create(): void {
+        const mainMusic = this.sound.get('maintheme');
+
+        this.music = this.sound.add('endscreen');
+        this.tweens.add({
+            targets: mainMusic,
+            props: {
+                volume: 0
+            },
+            duration: 300,
+            onComplete: () => {
+                this.music.play();
+            }
+        });
+
         const bg = this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height, 0xc69c6d);
         bg.setOrigin(0);
 

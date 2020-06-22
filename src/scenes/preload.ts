@@ -54,6 +54,7 @@ export default class Preload extends Scene {
   }
 
   create(): void {
-    this.scene.start('MenuScene');
+    //this.scene.start('MenuScene');
+    this.scene.start('GameScene');
   }
 }

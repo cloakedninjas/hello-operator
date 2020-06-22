@@ -20,7 +20,7 @@
     "numberStartRow": 60,
     "calls": {
         "spawnDelay": {
-            "fastThreshold": 2,
+            "fastThreshold": 120,
             "normal": {
                 "min": 4000,
                 "max": 6000

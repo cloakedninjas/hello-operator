@@ -12,11 +12,18 @@ export class Game extends Scene {
   stations: Station[];
   previousPortBeingHovered: Port;
   calls: Call[];
-  minute: number;
+  second: number;
+  totalGameTime: number;
   gameTimer: Phaser.Time.TimerEvent;
   conversations: string[];
   nextGeneratedCall: Phaser.Time.TimerEvent;
   music: Phaser.Sound.BaseSound;
+  timer: {
+    mm: Phaser.GameObjects.Image;
+    m: Phaser.GameObjects.Image;
+    ss: Phaser.GameObjects.Image;
+    s: Phaser.GameObjects.Image;
+  };
 
   constructor() {
     super({
@@ -32,26 +39,25 @@ export class Game extends Scene {
 
     const introMusic = this.sound.get('titlescreen');
 
-    this.tweens.add({
-      targets: introMusic,
-      props: {
-        volume: 0
-      },
-      duration: 300,
-      onComplete: () => {
-        this.music.play({ loop: true });
-      }
-    });
+    if (introMusic) {
+      this.tweens.add({
+        targets: introMusic,
+        props: {
+          volume: 0
+        },
+        duration: 300,
+        onComplete: () => {
+          this.music.play({ loop: true });
+        }
+      });
+    }
 
     this.switchBoard = this.add.image(0, 0, 'background');
     this.switchBoard.setOrigin(0.5, 0);
     this.switchBoard.setPosition(this.cameras.main.centerX, 0);
 
     this.calls = [];
-    this.minute = 0;
-
-    // generate people
-    //this.people = this.generatePeople();
+    this.second = 0;
 
     // generate ports
     this.ports = [];
@@ -66,6 +72,17 @@ export class Game extends Scene {
         this.add.existing(port);
       }
     }
+
+    // add timer
+    this.add.image(700, 32, 'timer');
+
+    const y = 32;
+    this.timer = {
+      mm: this.add.image(650, y, 'timer_numbers', 0),
+      m: this.add.image(683, y, 'timer_numbers', 0),
+      ss: this.add.image(716, y, 'timer_numbers', 0),
+      s: this.add.image(749, y, 'timer_numbers', 0)
+    };
 
     // add stations
     this.stations = [];
@@ -140,9 +157,11 @@ export class Game extends Scene {
 
     // start game
 
+    this.totalGameTime = config.gameTime * 60;
+
     this.gameTimer = this.time.addEvent({
-      delay: 10000, //60000, // 1min
-      repeat: config.gameTime - 1,
+      delay: 1000,
+      repeat: this.totalGameTime,
       callback: this.updateClock,
       callbackScope: this
     });
@@ -184,7 +203,7 @@ export class Game extends Scene {
   }
 
   generateCallWithDelay(delay?: number): void {
-    if (this.minute >= config.gameTime) {
+    if (this.second >= this.totalGameTime) {
       return;
     }
 
@@ -193,7 +212,7 @@ export class Game extends Scene {
     }
 
     if (delay === undefined) {
-      const band = this.minute >= config.calls.spawnDelay.fastThreshold
+      const band = this.second >= config.calls.spawnDelay.fastThreshold
         ? config.calls.spawnDelay.fast
         : config.calls.spawnDelay.normal;
 
@@ -250,9 +269,20 @@ export class Game extends Scene {
   }
 
   private updateClock(): void {
-    this.minute++;
+    this.second++;
 
-    if (this.minute === config.gameTime) {
+    const timeLeft = this.totalGameTime - this.second
+    let secs = (timeLeft % 60).toString();
+
+    if (secs.length < 2) {
+      secs = '0' + secs;
+    }
+
+    this.timer.m.setFrame(Math.floor(timeLeft / 60));
+    this.timer.s.setFrame(secs[1]);
+    this.timer.ss.setFrame(secs[0]);
+
+    if (this.second >= this.totalGameTime) {
       this.scene.start('ScoreScene', this.getScores());
     }
   }

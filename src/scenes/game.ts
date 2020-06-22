@@ -145,7 +145,6 @@ export class Game extends Scene {
     const sounds = [
       'talkswitchon',
       'talkswitchoff',
-      'plugin1',
       'plugin2',
       'releaseplug',
       'ringerloop',
@@ -352,6 +351,7 @@ export class Game extends Scene {
     this.nextGeneratedCall.paused = true;
 
     this.music.pause();
+    this.sound.play('plugin1');
 
     this.calls.forEach(call => {
       call.togglePause(true);
@@ -367,6 +367,7 @@ export class Game extends Scene {
     this.nextGeneratedCall.paused = true;
 
     this.music.resume();
+    this.sound.play('plugin1');
 
     this.calls.forEach(call => {
       call.togglePause(false);

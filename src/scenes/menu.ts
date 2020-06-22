@@ -85,6 +85,7 @@ export default class Menu extends Scene {
         this.sound.add('operator1');
         this.sound.add('operator2');
         this.sound.add('operator3');
+        this.sound.add('plugin1');
     }
 
     showUI(): void {
@@ -96,6 +97,7 @@ export default class Menu extends Scene {
 
         playButton.on('pointerdown', () => {
             playButton.setTexture('play_pressed');
+            this.sound.play('plugin1');
         });
 
         playButton.on('pointerout', () => {

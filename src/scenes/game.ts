@@ -39,21 +39,7 @@ export class Game extends Scene {
     //window['scene'] = this;
 
     this.music = this.sound.add('maintheme');
-
-    const introMusic = this.sound.get('titlescreen');
-
-    if (introMusic) {
-      this.tweens.add({
-        targets: introMusic,
-        props: {
-          volume: 0
-        },
-        duration: 300,
-        onComplete: () => {
-          this.music.play({ loop: true });
-        }
-      });
-    }
+    this.music.play({ loop: true });
 
     this.switchBoard = this.add.image(0, 0, 'background');
     this.switchBoard.setOrigin(0.5, 0);
@@ -295,6 +281,7 @@ export class Game extends Scene {
     this.renderClock();
 
     if (this.second >= this.totalGameTime) {
+      this.music.stop();
       this.scene.start('ScoreScene', this.getScores());
     }
   }

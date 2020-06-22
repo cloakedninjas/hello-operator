@@ -76,8 +76,6 @@ export default class Menu extends Scene {
             onCompleteScope: this
         });
 
-        // 1 more animal....
-
         this.music = this.sound.add('titlescreen');
         this.music.play({
             loop: true,
@@ -106,24 +104,9 @@ export default class Menu extends Scene {
 
         playButton.on('pointerup', () => {
             playButton.setTexture('play');
+            this.music.stop();
             this.scene.start('GameScene');
         });
-
-        /* const tutorialY = 568;
-        const tutorial = this.add.image(515, tutorialY, 'tutorial');
-        tutorial.alpha = 0;
-
-        const plug = this.add.image(430, tutorialY, 'switchboard_plug');
-        plug.alpha = 0;
-        plug.setInteractive(clickMe);
-        plug.on('pointerdown', () => {
-            this.tutorial = !this.tutorial;
-            cable.visible = this.tutorial;
-        });
-
-        const cable = this.add.image(plug.x, plug.y - 7, 'plugged_red');
-        cable.alpha = 0;
-        cable.visible = this.tutorial; */
 
         // credits
 
@@ -156,7 +139,7 @@ export default class Menu extends Scene {
         });
 
         this.tweens.add({
-            targets: [playButton, /* tutorial, plug, cable,  */credits],
+            targets: [playButton, credits],
             props: {
                 alpha: 1
             },

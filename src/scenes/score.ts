@@ -18,21 +18,7 @@ export default class Score extends Scene {
     }
 
     create(): void {
-        this.music = this.sound.add('endscreen');
-        const mainMusic = this.sound.get('maintheme');
-
-        if (mainMusic) {
-            this.tweens.add({
-                targets: mainMusic,
-                props: {
-                    volume: 0
-                },
-                duration: 300,
-                onComplete: () => {
-                    this.music.play();
-                }
-            });
-        }
+        this.sound.play('endscreen');
 
         this.sound.add('sealslap');
         this.sound.add('seal1');

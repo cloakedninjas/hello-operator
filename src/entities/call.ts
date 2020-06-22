@@ -52,8 +52,9 @@ export default class Call {
 
         this.speechBubble = new Phaser.GameObjects.Sprite(scene, speechX, personASpeechY, 'speech_bubble');
         this.speechText = new Phaser.GameObjects.Text(scene, speechX, personASpeechY, '', {
-            fontFamily: 'Arial',
-            fontSize: 'bold 12px',
+            fontFamily: 'Josefin Sans',
+            fontSize: '24px',
+            fontStyle: 'italic',
             color: '#000',
             align: 'center',
             wordWrap: {

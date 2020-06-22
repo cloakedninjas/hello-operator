@@ -32,7 +32,7 @@ export default class ProgressBar {
 
     const textStyle = {
       fontSize: '18px',
-      fontFamily: 'Moncao, Consolas, monospace',
+      fontFamily: 'Monaco, Consolas, monospace',
       color: '#ffffff'
     };
 

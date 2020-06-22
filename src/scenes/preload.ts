@@ -51,6 +51,7 @@ export default class Preload extends Scene {
     });
 
     this.load.webfont('Rock Salt', 'https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+    this.load.webfont('Josefin Sans', 'https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&display=swap');
   }
 
   create(): void {

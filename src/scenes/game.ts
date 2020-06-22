@@ -78,10 +78,10 @@ export class Game extends Scene {
 
     const y = 32;
     this.timer = {
-      mm: this.add.image(650, y, 'timer_numbers', 0),
-      m: this.add.image(683, y, 'timer_numbers', 0),
-      ss: this.add.image(716, y, 'timer_numbers', 0),
-      s: this.add.image(749, y, 'timer_numbers', 0)
+      mm: this.add.image(649, y, 'timer_numbers', 0),
+      m: this.add.image(682, y, 'timer_numbers', 0),
+      ss: this.add.image(718, y, 'timer_numbers', 0),
+      s: this.add.image(751, y, 'timer_numbers', 0)
     };
 
     // add stations
@@ -106,6 +106,7 @@ export class Game extends Scene {
     const labelY = config.ports.yOffset - 35;
     const labelStyle: Phaser.Types.GameObjects.Text.TextStyle = {
       color: '#000',
+      fontFamily: 'Monaco, Consolas, monospace',
       fontStyle: 'bold',
       backgroundColor: '#fff',
       padding: {

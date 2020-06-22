@@ -217,8 +217,16 @@ export default class Call {
         this.words = sentence.split(' ');
         this.speechText.text = '';
         this.textTypeAddWord(done);
-        // TODO
-        this.chatter = this.scene.sound.get('chatter' + Phaser.Math.Between(1, 2));
+
+        let chatterID: number
+        if (this.words.length === 1 && this.words[0] === '...') {
+            // do nothing
+        } else if (this.words.length < 5) {
+            chatterID = Phaser.Math.Between(6, 12);
+        } else {
+            chatterID = Phaser.Math.Between(1, 2);
+        }
+        this.chatter = this.scene.sound.get(`chatter${chatterID}`);
         this.chatter.play({
             volume: (this.speechBubble && this.speechBubble.visible) ? 1 : 0
         });

@@ -36,7 +36,10 @@ export default class Preload extends Scene {
         const url = manifest.assetRoot + '/' + fileType + '/' + assetVars['file'];
 
         if (fileType === 'spritesheet') {
-          this.load[fileType](key, url, assetVars.frameConfig);
+          this.load[fileType](key, url, {
+            frameWidth: assetVars.frameWidth,
+            frameHeight: assetVars.frameHeight
+          });
         } else if (fileType === 'audio') {
           const mp3Version = url.replace(/\.ogg$/, '.mp3');
           this.load[fileType](key, [url, mp3Version]);
@@ -52,12 +55,5 @@ export default class Preload extends Scene {
 
   create(): void {
     this.scene.start('MenuScene');
-    /* this.scene.start('ScoreScene', {
-      points: 3456,
-      received: 23,
-      answered: 19,
-      connected: 17,
-      dropped: 4
-    }); */
   }
 }

@@ -1,14 +1,14 @@
 {
     "assetRoot": "assets",
-    "totalSize": 6945622,
+    "totalSize": 7115004,
     "assets": {
         "audio": {
             "chatter1": {
-                "file": "chatter1.mp3",
+                "file": "chatter1.ogg",
                 "size": 16920
             },
             "chatter2": {
-                "file": "chatter2.mp3",
+                "file": "chatter2.ogg",
                 "size": 22320
             },
             "chatter3": {
@@ -32,7 +32,7 @@
                 "size": 2270547
             },
             "grabplug": {
-                "file": "grabplug.mp3",
+                "file": "grabplug.ogg",
                 "size": 7560
             },
             "plugin1": {
@@ -40,7 +40,7 @@
                 "size": 11291
             },
             "plugin2": {
-                "file": "plugin2.mp3",
+                "file": "plugin2.ogg",
                 "size": 6120
             },
             "releaseplug": {
@@ -48,7 +48,7 @@
                 "size": 9950
             },
             "ringerloop": {
-                "file": "ringerloop.mp3",
+                "file": "ringerloop.ogg",
                 "size": 22320
             },
             "talkswitchon": {
@@ -56,7 +56,7 @@
                 "size": 8339
             },
             "talkswitchoff": {
-                "file": "talkswitchoff.mp3",
+                "file": "talkswitchoff.ogg",
                 "size": 6120
             },
             "titlescreen": {
@@ -66,6 +66,34 @@
             "uibutton": {
                 "file": "uibutton.ogg",
                 "size": 16483
+            },
+            "chatter11": {
+                "file": "chatter11.ogg",
+                "size": 8954
+            },
+            "chatter10": {
+                "file": "chatter10.ogg",
+                "size": 7362
+            },
+            "chatter12": {
+                "file": "chatter12.ogg",
+                "size": 9348
+            },
+            "chatter6": {
+                "file": "chatter6.ogg",
+                "size": 12449
+            },
+            "chatter7": {
+                "file": "chatter7.ogg",
+                "size": 11161
+            },
+            "chatter8": {
+                "file": "chatter8.ogg",
+                "size": 12155
+            },
+            "chatter9": {
+                "file": "chatter9.ogg",
+                "size": 6120
             }
         },
         "text": {
@@ -270,6 +298,22 @@
             "seal_seal": {
                 "file": "seal_seal.png",
                 "size": 14255
+            },
+            "arrow": {
+                "file": "arrow.png",
+                "size": 8538
+            },
+            "timer": {
+                "file": "timer.png",
+                "size": 5188
+            }
+        },
+        "spritesheet": {
+            "timer_numbers": {
+                "file": "timer_numbers.png",
+                "size": 17695,
+                "frameWidth": 30,
+                "frameHeight": 40
             }
         }
     }

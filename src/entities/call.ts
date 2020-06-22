@@ -9,6 +9,18 @@ const avatarOffsetY = 180;
 const avatarPersonAX = 100;
 const avatarPersonBX = 285;
 
+const intros = [
+    '#### on the double!',
+    'Ahoy hoy! Get me ####, stat!',
+    'Hello, could you kindly connect me to ####?',
+    '####, please! Thank you!',
+    'Howdy! Hook me up with ####, partner.',
+    'Hello, could you connect me to ####?',
+    'Hello, operator? Please connect me to ####.',
+    'I\'m in a hurry! I need to reach ####, quick!',
+    'Could connect me to ####? Thanks!'
+];
+
 export default class Call {
     scene: GameScene;
     source: Port;
@@ -107,7 +119,8 @@ export default class Call {
                 callbackScope: this
             });
 
-            this.textType(`Hello, put me through to ${this.destination.number}`)
+            const intro = Phaser.Utils.Array.GetRandom(intros);
+            this.textType(intro.replace('####', this.destination.number.toString()));
         }
     }
 

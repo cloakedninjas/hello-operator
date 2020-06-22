@@ -83,6 +83,7 @@ export class Game extends Scene {
       s: this.add.image(751, y, 'timer_numbers', 0)
     };
 
+    this.totalGameTime = config.gameTime * 60;
     this.renderClock();
 
     // add stations
@@ -158,8 +159,6 @@ export class Game extends Scene {
     });
 
     // start game
-
-    this.totalGameTime = config.gameTime * 60;
 
     this.gameTimer = this.time.addEvent({
       delay: 1000,

@@ -4,6 +4,7 @@ import Station from '../entities/station';
 import Call from '../entities/call';
 import * as config from '../config.json';
 import { ScoreData } from './score';
+import { clickMe } from '../lib/click-me';
 
 export class Game extends Scene {
   switchBoard: Phaser.GameObjects.Image;
@@ -24,6 +25,9 @@ export class Game extends Scene {
     ss: Phaser.GameObjects.Image;
     s: Phaser.GameObjects.Image;
   };
+  helpButton: Phaser.GameObjects.Image;
+  helpPage: Phaser.GameObjects.Image;
+  helpClose: Phaser.GameObjects.Rectangle;
 
   constructor() {
     super({
@@ -85,6 +89,22 @@ export class Game extends Scene {
 
     this.totalGameTime = config.gameTime * 60;
     this.renderClock();
+
+    // help btn
+
+    this.helpButton = this.add.image(954, 10, 'tutorial_button');
+    this.helpButton.setOrigin(0, 0);
+    this.helpButton.setInteractive(clickMe);
+    this.helpButton.on('pointerdown', this.showHelp, this);
+
+    this.helpPage = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'tutorial_ingame');
+    this.helpPage.setOrigin(0.5, 0.5);
+    this.helpPage.visible = false;
+
+    this.helpClose = this.add.rectangle(933, 42, 42, 42);
+    this.helpClose.setOrigin(0, 0);
+    this.helpClose.visible = true;
+    this.helpClose.on('pointerdown', this.closeHelp, this);
 
     // add stations
     this.stations = [];
@@ -333,5 +353,32 @@ export class Game extends Scene {
     scores.approved = scores.points > 0;
 
     return scores;
+  }
+
+  showHelp(): void {
+    this.helpButton.removeInteractive();
+    this.helpClose.setInteractive(clickMe);
+    this.helpPage.visible = true;
+    this.children.bringToTop(this.helpPage);
+
+    this.gameTimer.paused = true;
+    this.nextGeneratedCall.paused = true;
+
+    this.calls.forEach(call => {
+      call.togglePause(true);
+    });
+  }
+
+  closeHelp(): void {
+    this.helpButton.setInteractive(clickMe);
+    this.helpPage.visible = false;
+    this.helpClose.removeInteractive();
+
+    this.gameTimer.paused = false;
+    this.nextGeneratedCall.paused = true;
+
+    this.calls.forEach(call => {
+      call.togglePause(false);
+    });
   }
 }

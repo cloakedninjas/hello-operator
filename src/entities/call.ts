@@ -175,6 +175,20 @@ export default class Call {
         this.endCall(true);
     }
 
+    togglePause(paused: boolean): void {
+        if (this.callerTimer) {
+            this.callerTimer.paused = paused;
+        }
+
+        if (this.failTimer) {
+            this.failTimer.paused = paused;
+        }
+
+        if (this.speechTimer) {
+            this.speechTimer.paused = paused;
+        }
+    }
+
     private showDialog(show: boolean): void {
         this.speechBubble.visible = show;
         this.speechText.visible = show;

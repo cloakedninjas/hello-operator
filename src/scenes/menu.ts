@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { clickMe } from '../lib/click-me';
 
 export default class Menu extends Scene {
     tutorial = true;
@@ -82,15 +83,15 @@ export default class Menu extends Scene {
             loop: true,
             volume: 1
         });
+
+        this.sound.add('operator1');
+        this.sound.add('operator2');
+        this.sound.add('operator3');
     }
 
     showUI(): void {
         const title = this.add.image(490, 290, 'speech_title');
         title.alpha = 0;
-
-        const clickMe = {
-            cursor: 'pointer'
-        };
 
         const playButton = this.add.image(500, 490, 'play');
         playButton.alpha = 0;
@@ -108,7 +109,7 @@ export default class Menu extends Scene {
             this.scene.start('GameScene');
         });
 
-        const tutorialY = 568;
+        /* const tutorialY = 568;
         const tutorial = this.add.image(515, tutorialY, 'tutorial');
         tutorial.alpha = 0;
 
@@ -122,7 +123,7 @@ export default class Menu extends Scene {
 
         const cable = this.add.image(plug.x, plug.y - 7, 'plugged_red');
         cable.alpha = 0;
-        cable.visible = this.tutorial;
+        cable.visible = this.tutorial; */
 
         // credits
 
@@ -148,11 +149,14 @@ export default class Menu extends Scene {
             props: {
                 alpha: 1
             },
-            duration: 300
+            duration: 300,
+            onComplete: () => {
+                this.sound.play('operator' + Phaser.Math.Between(1, 3));
+            }
         });
 
         this.tweens.add({
-            targets: [playButton, tutorial, plug, cable, credits],
+            targets: [playButton, /* tutorial, plug, cable,  */credits],
             props: {
                 alpha: 1
             },

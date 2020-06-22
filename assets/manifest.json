@@ -1,6 +1,6 @@
 {
     "assetRoot": "assets",
-    "totalSize": 7255109,
+    "totalSize": 7868715,
     "assets": {
         "audio": {
             "chatter1": {
@@ -319,13 +319,61 @@
                 "file": "seal_seal.png",
                 "size": 14255
             },
-            "arrow": {
-                "file": "arrow.png",
-                "size": 8538
-            },
             "timer": {
                 "file": "timer.png",
                 "size": 5188
+            },
+            "character_10": {
+                "file": "character_10.png",
+                "size": 32156
+            },
+            "character_13": {
+                "file": "character_13.png",
+                "size": 28424
+            },
+            "character_11": {
+                "file": "character_11.png",
+                "size": 32406
+            },
+            "character_12": {
+                "file": "character_12.png",
+                "size": 32428
+            },
+            "character_14": {
+                "file": "character_14.png",
+                "size": 31148
+            },
+            "character_15": {
+                "file": "character_15.png",
+                "size": 29631
+            },
+            "character_16": {
+                "file": "character_16.png",
+                "size": 32419
+            },
+            "character_17": {
+                "file": "character_17.png",
+                "size": 19204
+            },
+            "character_19": {
+                "file": "character_19.png",
+                "size": 21485
+            },
+            "character_18": {
+                "file": "character_18.png",
+                "size": 21306
+            },
+            "tutorial_button": {
+                "file": "tutorial_button.png",
+                "size": 4966
+            },
+            "character_20": {
+                "file": "character_20.png",
+                "size": 22464
+            },
+            "tutorial_ingame": {
+                "file": "tutorial_ingame.png",
+                "size": 213676
             }
         },
         "spritesheet": {

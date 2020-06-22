@@ -1,6 +1,8 @@
 import { Scene } from 'phaser';
 
 export default class Menu extends Scene {
+    tutorial = true;
+
     constructor() {
         super({
             key: 'MenuScene'
@@ -8,6 +10,8 @@ export default class Menu extends Scene {
     }
 
     create(): void {
+        this.tutorial = localStorage.getItem('tutorial-seen') === null;
+
         const bg = this.add.image(0, 0, 'title_background');
         bg.setOrigin(0);
 
@@ -74,39 +78,84 @@ export default class Menu extends Scene {
     }
 
     showUI(): void {
-        this.add.image(500, 320, 'speech_title');
+        const title = this.add.image(490, 290, 'speech_title');
+        title.alpha = 0;
 
-        this.time.addEvent({
-            delay: 500,
-            callback: () => {
-                const clickMe = {
-                    cursor: 'pointer'
-                };
-                const playButton = this.add.image(500, 600, 'speech_play');
-                playButton.setInteractive(clickMe);
+        const clickMe = {
+            cursor: 'pointer'
+        };
 
-                playButton.on('pointerdown', () => {
-                    this.scene.start('GameScene');
-                });
+        const playButton = this.add.image(500, 490, 'play');
+        playButton.alpha = 0;
 
-                this.add.image(665, 70, 'speech_credits');
+        playButton.on('pointerdown', () => {
+            playButton.setTexture('play_pressed');
+        });
 
-                const x = 670;
-                const y = 34
-                const width = 150;
-                const height = 35;
+        playButton.on('pointerout', () => {
+            playButton.setTexture('play');
+        });
 
-                const dj = this.add.rectangle(x, y, width, height);
+        playButton.on('pointerup', () => {
+            playButton.setTexture('play');
+            this.scene.start('GameScene');
+        });
+
+        const tutorialY = 568;
+        const tutorial = this.add.image(515, tutorialY, 'tutorial');
+        tutorial.alpha = 0;
+
+        const plug = this.add.image(430, tutorialY, 'switchboard_plug');
+        plug.alpha = 0;
+        plug.setInteractive(clickMe);
+        plug.on('pointerdown', () => {
+            this.tutorial = !this.tutorial;
+            cable.visible = this.tutorial;
+        });
+
+        const cable = this.add.image(plug.x, plug.y - 7, 'plugged_red');
+        cable.alpha = 0;
+        cable.visible = this.tutorial;
+
+        // credits
+
+        const credits = this.add.image(665, 70, 'speech_credits');
+        credits.alpha = 0;
+
+        const x = 670;
+        const y = 34
+        const width = 150;
+        const height = 35;
+
+        const dj = this.add.rectangle(x, y, width, height);
+        dj.on('pointerdown', this.creditClick.bind(this, 'cloakedninjas'));
+
+        const jk = this.add.rectangle(x, dj.y + height, width, height);
+        jk.on('pointerdown', this.creditClick.bind(this, 'thedorkulon'));
+
+        const al = this.add.rectangle(x, jk.y + height, width, height);
+        al.on('pointerdown', this.creditClick.bind(this, 'treslapin'));
+
+        this.tweens.add({
+            targets: title,
+            props: {
+                alpha: 1
+            },
+            duration: 300
+        });
+
+        this.tweens.add({
+            targets: [playButton, tutorial, plug, cable, credits],
+            props: {
+                alpha: 1
+            },
+            duration: 300,
+            delay: 800,
+            onComplete: () => {
                 dj.setInteractive(clickMe);
-                dj.on('pointerdown', this.creditClick.bind(this, 'cloakedninjas'));
-
-                const jk = this.add.rectangle(x, dj.y + height, width, height);
                 jk.setInteractive(clickMe);
-                jk.on('pointerdown', this.creditClick.bind(this, 'thedorkulon'));
-
-                const al = this.add.rectangle(x, jk.y + height, width, height);
                 al.setInteractive(clickMe);
-                al.on('pointerdown', this.creditClick.bind(this, 'treslapin'));
+                playButton.setInteractive(clickMe);
             }
         });
     }

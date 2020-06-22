@@ -13,8 +13,11 @@ export default class Preload extends Scene {
   }
 
   preload(): void {
+    const bg = this.add.image(0, 0, 'title_background');
+    bg.setOrigin(0);
+
     this.downloadedSize = 0;
-    this.progressBar = new ProgressBar(this, 0.5, 0.66, manifest.totalSize);
+    this.progressBar = new ProgressBar(this, 0.5, 0.5, manifest.totalSize);
 
     this.load.on('fileprogress', (file) => {
       const previousLoad = file.previousLoad || 0;
@@ -46,6 +49,6 @@ export default class Preload extends Scene {
   }
 
   create(): void {
-    this.scene.start('GameScene');
+    this.scene.start('MenuScene');
   }
 }

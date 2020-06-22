@@ -103,6 +103,8 @@ export class Game extends Scene {
       'plugin2',
       'releaseplug',
       'ringerloop',
+      'chatter1',
+      'chatter2'
     ];
 
     sounds.forEach(sound => {

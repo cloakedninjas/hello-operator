@@ -77,10 +77,10 @@ export default class ProgressBar {
 
     const doubleLineWidth = this.lineWidth * 2;
 
-    this.track.fillStyle(0);
+    this.track.fillStyle(0x5b4010);
     this.track.fillRect(this.x, this.y, this.width, this.height);
 
-    this.track.fillStyle(0xcccccc);
+    this.track.fillStyle(0xfff6d9);
     this.track.fillRect(this.x + this.lineWidth, this.y + this.lineWidth, this.width - doubleLineWidth, this.height - doubleLineWidth);
 
     this.progressBarShape = {
@@ -94,7 +94,7 @@ export default class ProgressBar {
   setProgress(progress: number): void {
     this.progressBar.clear();
 
-    this.progressBar.fillStyle(0x3d8f3d);
+    this.progressBar.fillStyle(0x498d3a);
     this.progressBar.fillRect(this.progressBarShape.x, this.progressBarShape.y, this.progressBarShape.maxWidth * progress, this.progressBarShape.height);
 
     this.percentText.setText(Math.round(progress * 100) + '%');

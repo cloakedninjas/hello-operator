@@ -31,6 +31,7 @@ export default class Call {
     successful = false;
     words: string[];
     characters: number[];
+    chatter: Phaser.Sound.BaseSound;
 
     constructor(scene: GameScene, source: Port, destination: Port, conversation: string) {
         this.scene = scene;
@@ -146,6 +147,11 @@ export default class Call {
         this.speechBubble.visible = show;
         this.speechText.visible = show;
         this.avatar.visible = show;
+
+        if (this.chatter) {
+            console.log(this.chatter.isPlaying);
+            (this.chatter as any).setVolume(1);
+        }
     }
 
     private playConversation(): void {
@@ -200,6 +206,11 @@ export default class Call {
         this.words = sentence.split(' ');
         this.speechText.text = '';
         this.textTypeAddWord(done);
+        // TODO
+        this.chatter = this.scene.sound.get('chatter' + Phaser.Math.Between(1, 2));
+        this.chatter.play({
+            volume: (this.speechBubble && this.speechBubble.visible) ? 1 : 0
+        });
     }
 
     private textTypeAddWord(done?: () => void): void {

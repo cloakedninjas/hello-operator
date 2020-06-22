@@ -4,6 +4,7 @@ export default class Score extends Scene {
     scoreData: ScoreData;
     report: Phaser.GameObjects.Image;
     flipper: Phaser.GameObjects.Image;
+    backButton: Phaser.GameObjects.Image;
     music: Phaser.Sound.BaseSound;
 
     constructor() {
@@ -34,12 +35,10 @@ export default class Score extends Scene {
         const bg = this.add.rectangle(0, 0, this.cameras.main.width, this.cameras.main.height, 0xc69c6d);
         bg.setOrigin(0);
 
-        const back = this.add.image(1010, 720, 'backtomenu');
-        back.setOrigin(1);
-        back.setInteractive({
-            cursor: 'pointer'
-        });
-        back.on('pointerdown', () => {
+        this.backButton = this.add.image(1010, 720, 'backtomenu');
+        this.backButton.setOrigin(1);
+
+        this.backButton.on('pointerdown', () => {
             this.scene.start('MenuScene');
         });
 
@@ -102,6 +101,10 @@ export default class Score extends Scene {
             delay: 500,
             duration: 700,
             ease: Phaser.Math.Easing.Sine.Out
+        });
+
+        this.backButton.setInteractive({
+            cursor: 'pointer'
         });
     }
 }

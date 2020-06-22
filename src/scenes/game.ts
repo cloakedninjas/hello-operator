@@ -12,7 +12,7 @@ export class Game extends Scene {
   stations: Station[];
   previousPortBeingHovered: Port;
   calls: Call[];
-  minute = 0;
+  minute: number;
   gameTimer: Phaser.Time.TimerEvent;
   conversations: string[];
   nextGeneratedCall: Phaser.Time.TimerEvent;
@@ -48,6 +48,7 @@ export class Game extends Scene {
     this.switchBoard.setPosition(this.cameras.main.centerX, 0);
 
     this.calls = [];
+    this.minute = 0;
 
     // generate people
     //this.people = this.generatePeople();
@@ -133,7 +134,7 @@ export class Game extends Scene {
     // start game
 
     this.gameTimer = this.time.addEvent({
-      delay: 60000, //60000, // 1min
+      delay: 10000, //60000, // 1min
       repeat: config.gameTime - 1,
       callback: this.updateClock,
       callbackScope: this

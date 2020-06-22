@@ -287,7 +287,7 @@ export default class Call {
         }
 
         if (!success) {
-            this.scene.updateCallStatus('failed_call');
+            this.scene.updateCallStatus();
         }
 
         this.successful = success;

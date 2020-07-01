@@ -1,6 +1,9 @@
 # Hello, Operator?
 
-A submission to the ScoreSpace x Alakajam (9th) game jam
+The winner 🏆 of ScoreSpace x Alakajam team division game jam
+
+![Game Screenshot](https://static.alakajam.com/data/uploads/entry/930.gif)
+
 
 ## Installation
 
